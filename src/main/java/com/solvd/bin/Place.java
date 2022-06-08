@@ -1,6 +1,6 @@
 package com.solvd.bin;
 
-public class Places {
+public class Place {
   private String name;
   private Coordinate location;
 

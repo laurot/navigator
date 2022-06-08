@@ -1,7 +1,6 @@
 package com.solvd.bin.user;
 
 import com.solvd.bin.Coordinate;
-import com.solvd.bin.user.passwordValidation.PasswordValidator;
 
 import java.util.Objects;
 
