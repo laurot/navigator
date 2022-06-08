@@ -13,4 +13,8 @@ public class Input {
     public static Input getInput(){
         return instance;
     }
+
+    public Scanner getScanner(){
+        return sc;
+    }
 }
