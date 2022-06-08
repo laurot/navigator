@@ -2,6 +2,8 @@ package com.solvd;
 
 import java.util.List;
 
+import com.solvd.bin.Coordinate;
+import com.solvd.bin.Navigator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
