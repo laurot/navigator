@@ -6,32 +6,12 @@ import com.solvd.bin.user.passwordValidation.PasswordValidator;
 import java.util.Objects;
 
 public class User {
-  private String userName;
-  private String password;
   private Coordinate position;
-  private PasswordValidator validator;
+  private Account account;
 
-  public User(String userName, String password, Coordinate position) {
-    this.userName = userName;
-    this.password = password;
-    validator.validateAtributes(userName, password);
+  public User(Coordinate position, Account account) {
     this.position = position;
-  }
-
-  public String getUserName() {
-    return userName;
-  }
-
-  public void setUserName(String userName) {
-    this.userName = userName;
-  }
-
-  public String getPassword() {
-    return password;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
+    this.account = account;
   }
 
   public Coordinate getPosition() {
@@ -40,6 +20,14 @@ public class User {
 
   public void setPosition(Coordinate position) {
     this.position = position;
+  }
+
+  public Account getAccount() {
+    return account;
+  }
+
+  public void setAccount(Account account) {
+    this.account = account;
   }
 
   @Override
@@ -51,13 +39,10 @@ public class User {
       return false;
     }
     final User other = (User) obj;
-    if (!Objects.equals(this.userName, other.userName)) {
+    if (!Objects.equals(this.position, other.position)) {
       return false;
     }
-    if (this.password != other.password) {
-      return false;
-    }
-    if (this.position != other.position) {
+    if (this.account != other.account) {
       return false;
     }
     return true;
@@ -65,15 +50,14 @@ public class User {
 
   @Override
   public int hashCode() {
-    return Objects.hash(userName, password, position);
+    return Objects.hash(position, account);
   }
 
   @Override
   public String toString() {
     return "Benefit{" +
-        "id=" + userName +
-        ", benefit='" + password + '\'' +
-        ", clients=" + position +
+        "id=" + position +
+        ", benefit='" + account +
         '}';
   }
 }
