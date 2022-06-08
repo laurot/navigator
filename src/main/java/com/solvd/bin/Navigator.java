@@ -17,6 +17,7 @@ public class Navigator {
         allDots.add(destination);
         List<Coordinate> path = new ArrayList<Coordinate>();
         Coordinate nextDot = start;
+        Set<Coordinate> removables = new HashSet<Coordinate>();
         while(!destination.equals(nextDot)){
             path.add(nextDot);
             allDots.remove(nextDot);
@@ -31,9 +32,12 @@ public class Navigator {
                         double dNext = getDistance(coordinate, path.get(path.size()-1));
                         double dCurrent = getDistance(nextDot, path.get(path.size()-1));
                         nextDot = dNext > dCurrent ? nextDot:coordinate;
-                    }
+                    }else{
+                        removables.add(coordinate); //Makes a list of coordinates to be 
+                    }                               //later removed and make future iterations faster
                 }
             }
+            allDots.removeAll(removables);          //Removes them 
         }
         path.add(destination);
         return path;
@@ -41,8 +45,8 @@ public class Navigator {
 
     private Set<Coordinate> getAllDots(){
         Set<Coordinate> allDots = new HashSet<Coordinate>();
-        for (int i = 0; i < 10; i++) {
-            allDots.add(new Coordinate(ThreadLocalRandom.current().nextInt(10),ThreadLocalRandom.current().nextInt(10)));
+        for (int i = 0; i < 15; i++) {
+            allDots.add(new Coordinate(ThreadLocalRandom.current().nextInt(30)-15,ThreadLocalRandom.current().nextInt(30)-15));
         }
         return allDots;
     }
