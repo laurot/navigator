@@ -1,4 +1,4 @@
-package com.solvd.bin;
+package com.solvd.services;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -6,30 +6,38 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
+import com.solvd.bin.Coordinate;
+import com.solvd.bin.Path;
+import com.solvd.bin.Trip;
+
 public class Navigator {
     
-    public List<Coordinate> getPath(Coordinate start, Coordinate destination){
+    public Path getpathList(Trip trip, Coordinate destination){
 
-        Set<Coordinate> allDots = getAllDots();
-        allDots.add(start);
+        Path path = new Path();
+        Set<Coordinate> allDots = getAllDots();                         //Has to be changed
+        Coordinate nextDot = trip.getUser().getPosition();
+        allDots.add(nextDot);
         allDots.add(destination);
-        List<Coordinate> path = new ArrayList<Coordinate>();
-        Coordinate nextDot = start;
+        List<Coordinate> pathList = new ArrayList<Coordinate>();
         Set<Coordinate> removables = new HashSet<Coordinate>();
         while(!destination.equals(nextDot)){
-            path.add(nextDot);
+            pathList.add(nextDot);
             allDots.remove(nextDot);
             for (Coordinate coordinate : allDots) {
                 
-                if(nextDot.equals(path.get(path.size()-1))) nextDot = coordinate;
+                if(nextDot.equals(pathList.get(pathList.size()-1))) nextDot = coordinate;
 
-                if(!path.get(path.size()-1).equals(coordinate)){
+                if(!pathList.get(pathList.size()-1).equals(coordinate)){
                     double distanceNext = getDistance(coordinate, destination);
-                    double distance = getDistance(path.get(path.size()-1), destination);
+                    double distance = getDistance(pathList.get(pathList.size()-1), destination);
                     if (distanceNext < distance) {
-                        double dNext = getDistance(coordinate, path.get(path.size()-1));
-                        double dCurrent = getDistance(nextDot, path.get(path.size()-1));
-                        nextDot = dNext > dCurrent ? nextDot:coordinate;
+                        double dNext = getDistance(coordinate, pathList.get(pathList.size()-1));
+                        double dCurrent = getDistance(nextDot, pathList.get(pathList.size()-1));
+                        if(dNext < dCurrent){
+                            nextDot = coordinate;
+                            path.setDistance(path.getDistance()+dNext);
+                        }
                     }else{
                         removables.add(coordinate); //Makes a list of coordinates to be 
                     }                               //later removed and make future iterations faster
@@ -37,7 +45,9 @@ public class Navigator {
             }
             allDots.removeAll(removables);          //Removes them 
         }
-        path.add(destination);
+        pathList.add(destination);
+        path.setPath(pathList);
+
         return path;
     }
 

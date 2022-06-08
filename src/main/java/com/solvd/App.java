@@ -1,9 +1,5 @@
 package com.solvd;
 
-import java.util.List;
-
-import com.solvd.bin.Coordinate;
-import com.solvd.bin.Navigator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,12 +8,11 @@ public class App
     private static final Logger LOGGER = LogManager.getLogger();
     public static void main( String[] args )
     {
-        List<Coordinate> path = new Navigator().getPath(new Coordinate(6,0), new Coordinate( 0, -10));
-        
-        int i = 1;
-        for (Coordinate coordinate : path) {
-            LOGGER.info(coordinate.toString() + "  -  " + i); 
-            i++;
-        }
+        LOGGER.info("Main menu:");
+        LOGGER.info("0.Exit");
+        LOGGER.info("1.Sign In");
+        LOGGER.info("2.Login user");
+        LOGGER.info("3.Login place");
+
     }
 }
