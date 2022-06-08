@@ -1,4 +1,4 @@
-package com.solvd;
+package com.solvd.bin;
 
 public class Coordinate {
     private int x;

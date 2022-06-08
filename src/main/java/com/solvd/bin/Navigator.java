@@ -1,4 +1,6 @@
-package com.solvd;
+package com.solvd.bin;
+
+import com.solvd.bin.Coordinate;
 
 import java.util.ArrayList;
 import java.util.HashSet;
