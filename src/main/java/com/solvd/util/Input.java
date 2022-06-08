@@ -14,7 +14,13 @@ public class Input {
         return instance;
     }
 
-    public Scanner getScanner(){
-        return sc;
+    public int nextInt(){
+        int a = sc.nextInt();
+        sc.nextLine();
+        return a;
+    }
+
+    public String nextLine(){
+        return sc.nextLine();
     }
 }
