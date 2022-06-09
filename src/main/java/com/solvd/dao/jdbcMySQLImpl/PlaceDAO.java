@@ -53,7 +53,7 @@ public class PlaceDAO extends AbstractDAO implements IPlaceDAO {
       pr = con.prepareStatement(INSERT_PLACE);
       pr.setString(1, entity.getName());
       pr.setInt(2, entity.getLocation().getId());
-      pr.execute();
+      pr.executeUpdate();
     } catch (SQLException e) {
       throw new DAOException("There was a problem while doing the statement" + e);
     } finally {
@@ -74,7 +74,7 @@ public class PlaceDAO extends AbstractDAO implements IPlaceDAO {
       pr.setString(1, entity.getName());
       pr.setInt(2, entity.getLocation().getId());
       pr.setLong(3, id);
-      pr.execute();
+      pr.executeUpdate();
     } catch (SQLException e) {
       throw new DAOException("There was a problem while doing the statement" + e);
     } finally {
@@ -93,7 +93,7 @@ public class PlaceDAO extends AbstractDAO implements IPlaceDAO {
     try (Connection con = getConnection()) {
       pr = con.prepareStatement(DELETE_PLACE_BY_ID);
       pr.setLong(1, id);
-      pr.execute();
+      pr.executeUpdate();
     } catch (SQLException e) {
       throw new DAOException("There was a problem while doing the statement" + e);
     } finally {

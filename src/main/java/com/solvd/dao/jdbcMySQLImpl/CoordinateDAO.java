@@ -54,7 +54,7 @@ public class CoordinateDAO extends AbstractDAO implements ICoordinateDAO {
       pr = con.prepareStatement(INSERT_COORDINATE);
       pr.setInt(1, entity.getX());
       pr.setInt(2, entity.getY());
-      pr.execute();
+      pr.executeUpdate();
     } catch (SQLException e) {
       throw new DAOException("There was a problem while doing the statement" + e);
     } finally {
@@ -75,7 +75,7 @@ public class CoordinateDAO extends AbstractDAO implements ICoordinateDAO {
       pr.setInt(1, entity.getX());
       pr.setInt(2, entity.getY());
       pr.setLong(3, id);
-      pr.execute();
+      pr.executeUpdate();
     } catch (SQLException e) {
       throw new DAOException("There was a problem while doing the statement" + e);
     } finally {
@@ -94,7 +94,7 @@ public class CoordinateDAO extends AbstractDAO implements ICoordinateDAO {
     try (Connection con = getConnection()) {
       pr = con.prepareStatement(DELETE_COORDINATE_BY_ID);
       pr.setLong(1, id);
-      pr.execute();
+      pr.executeUpdate();
     } catch (SQLException e) {
       throw new DAOException("There was a problem while doing the statement" + e);
     } finally {

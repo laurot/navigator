@@ -50,7 +50,7 @@ public class UserDAO extends AbstractDAO implements IUserDAO {
       pr = con.prepareStatement(INSERT_USER);
       pr.setInt(1, entity.getPosition().getId());
       pr.setInt(2, entity.getAccount().getId());
-      pr.execute();
+      pr.executeUpdate();
     } catch (SQLException e) {
       throw new DAOException("There was a problem while doing the statement" + e);
     } finally {
@@ -71,7 +71,7 @@ public class UserDAO extends AbstractDAO implements IUserDAO {
       pr.setInt(1, entity.getPosition().getId());
       pr.setInt(2, entity.getAccount().getId());
       pr.setLong(3, id);
-      pr.execute();
+      pr.executeUpdate();
     } catch (SQLException e) {
       throw new DAOException("There was a problem while doing the statement" + e);
     } finally {
@@ -90,7 +90,7 @@ public class UserDAO extends AbstractDAO implements IUserDAO {
     try (Connection con = getConnection()) {
       pr = con.prepareStatement(DELETE_USER_BY_ID);
       pr.setLong(1, id);
-      pr.execute();
+      pr.executeUpdate();
     } catch (SQLException e) {
       throw new DAOException("There was a problem while doing the statement" + e);
     } finally {

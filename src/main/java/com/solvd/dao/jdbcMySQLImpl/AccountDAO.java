@@ -73,7 +73,7 @@ public class AccountDAO extends AbstractDAO implements IAccountDAO {
       pr.setString(1, entity.getUserName());
       pr.setString(2, entity.getPassword());
       pr.setLong(3, id);
-      pr.execute();
+      pr.executeUpdate();
     } catch (SQLException e) {
       throw new DAOException("There was a problem while doing the statement" + e);
     } finally {
@@ -92,7 +92,7 @@ public class AccountDAO extends AbstractDAO implements IAccountDAO {
     try (Connection con = getConnection()) {
       pr = con.prepareStatement(DELETE_ACCOUNT_BY_ID);
       pr.setLong(1, id);
-      pr.execute();
+      pr.executeUpdate();
     } catch (SQLException e) {
       throw new DAOException("There was a problem while doing the statement" + e);
     } finally {

@@ -51,7 +51,7 @@ public class TripDAO extends AbstractDAO implements ITripDAO {
       pr.setInt(1, entity.getTransport().getId());
       pr.setInt(2, entity.getUser().getId());
       pr.setInt(2, entity.getPath().getId());
-      pr.execute();
+      pr.executeUpdate();
     } catch (SQLException e) {
       throw new DAOException("There was a problem while doing the statement" + e);
     } finally {
@@ -73,7 +73,7 @@ public class TripDAO extends AbstractDAO implements ITripDAO {
       pr.setInt(2, entity.getUser().getId());
       pr.setInt(2, entity.getPath().getId());
       pr.setLong(3, id);
-      pr.execute();
+      pr.executeUpdate();
     } catch (SQLException e) {
       throw new DAOException("There was a problem while doing the statement" + e);
     } finally {
@@ -92,7 +92,7 @@ public class TripDAO extends AbstractDAO implements ITripDAO {
     try (Connection con = getConnection()) {
       pr = con.prepareStatement(DELETE_TRIP_BY_ID);
       pr.setLong(1, id);
-      pr.execute();
+      pr.executeUpdate();
     } catch (SQLException e) {
       throw new DAOException("There was a problem while doing the statement" + e);
     } finally {
