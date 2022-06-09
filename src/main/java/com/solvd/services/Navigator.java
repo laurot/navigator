@@ -1,4 +1,4 @@
-package com.solvd.bin;
+package com.solvd.services;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -12,7 +12,7 @@ import com.solvd.bin.Trip;
 
 public class Navigator {
     
-    public Path getpathList(Trip trip, Coordinate destination){
+    public Trip getpathList(Trip trip, Coordinate destination){
 
         Path path = new Path();
         Set<Coordinate> allDots = getAllDots();                         //Has to be changed
@@ -47,8 +47,8 @@ public class Navigator {
         }
         pathList.add(destination);
         path.setPath(pathList);
-
-        return path;
+        trip.setPath(path);
+        return trip;
     }
 
     private Set<Coordinate> getAllDots(){

@@ -4,6 +4,10 @@ import com.solvd.bin.user.User;
 
 public interface IUserServices {
     void changePosition(User user);         //cambia la posicion actual(si ya existe solo cambia el position_id, sino la crea primero)
-    User getUser();                         //trae los datos del usuario
-    boolean authenticatePass();             //autentifica user y pass 
+    User getUser(User user);                //trae los datos del usuario cuando inicia sesion
+    boolean authenticatePass();             //autentifica user y pass
+    void userMenu(User user);               //opciones de user (cambiar posicion, cambiar username o pass, borrar cuenta, Navegar)
+    
+    void navigate(User user);               //prepara todo para la clase Navigate (crea un Trip con User, y Transport seleccionado)
+                                            // y despues de mostrar el camino, guarda el trip
 }
