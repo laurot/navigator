@@ -99,6 +99,7 @@ public class UserServiceImpl implements IUserServices {
         LOGGER.info("Aproximately " + trip.getPath().getDistance()/trip.getTransport().getSpeed() + " hours");
         LOGGER.info("And cost approximately $" + trip.getPath().getDistance()*consumptionPrice);
         LOGGER.info("--ENTER to continue--");
+        new TripServiceImpl().saveTrip(trip);
         Input.getInput().nextLine();
     }
 }
