@@ -1,9 +1,9 @@
 package com.solvd.dao.jdbcMySQLImpl;
 
-import com.solvd.bin.Coordinate;
-import com.solvd.bin.user.Account;
-import com.solvd.dao.IAccountDAO;
-import com.solvd.dao.ICoordinateDAO;
+import com.solvd.bin.Place;
+import com.solvd.bin.Transport;
+import com.solvd.dao.IPlaceDAO;
+import com.solvd.dao.ITransportDAO;
 import com.solvd.exceptions.DAOException;
 
 import java.sql.Connection;
@@ -12,27 +12,28 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class CoordinateDAO extends AbstractDAO implements ICoordinateDAO {
-  private final static String SELECT_BY_COORDINATE_ID = "SELECT * FROM Coordinates WHERE id=?";
-  private final static String DELETE_COORDINATE_BY_ID = "DELETE FROM Coordinates WHERE id=?";
-  private final static String UPDATE_COORDINATE_BY_ID = "UPDATE Coordinates SET x=?, y=? WHERE id=?";
-  private final static String INSERT_COORDINATE = "INSERT INTO Coordinates (x,y) VALUES (?,?)";
+public class TransportDAO extends AbstractDAO implements ITransportDAO {
+  private final static String SELECT_BY_TRANSPORT_ID = "SELECT * FROM Transports WHERE id=?";
+  private final static String DELETE_TRANSPORT_BY_ID = "DELETE FROM Transports WHERE id=?";
+  private final static String UPDATE_TRANSPORT_BY_ID = "UPDATE Transports SET type=?, speed=?, consumption=? WHERE id=?";
+  private final static String INSERT_TRANSPORT = "INSERT INTO Transports (type,speed,consumption) VALUES (?,?,?)";
 
   @Override
-  public Coordinate getEntityById(long id) throws DAOException {
+  public Transport getEntityById(long id) {
     PreparedStatement pr = null;
     ResultSet rs = null;
     try (Connection con = getConnection()) {
-      pr = con.prepareStatement(SELECT_BY_COORDINATE_ID);
+      pr = con.prepareStatement(SELECT_BY_TRANSPORT_ID);
       pr.setLong(1, id);
       rs = pr.executeQuery();
-      Coordinate coordinate = new Coordinate();
+      Transport transport = new Transport();
       rs.next();
-      coordinate.setId(Integer.parseInt(rs.getString("id")));
-      coordinate.setX(Integer.parseInt(rs.getString("x")));
-      coordinate.setY(Integer.parseInt(rs.getString("y")));
+      transport.setId(Integer.parseInt(rs.getString("id")));
+      transport.setType(rs.getString("type"));
+      transport.setSpeed(rs.getInt("speed"));
+      transport.setConsumption(rs.getDouble("consumption"));
 
-      return coordinate;
+      return transport;
     } catch (SQLException e) {
       throw new DAOException("There was a problem while doing the statement" + e);
     } finally {
@@ -48,12 +49,13 @@ public class CoordinateDAO extends AbstractDAO implements ICoordinateDAO {
   }
 
   @Override
-  public void saveEntity(Coordinate entity) {
+  public void saveEntity(Transport entity) {
     PreparedStatement pr = null;
     try (Connection con = getConnection()) {
-      pr = con.prepareStatement(INSERT_COORDINATE);
-      pr.setInt(1, entity.getX());
-      pr.setInt(2, entity.getY());
+      pr = con.prepareStatement(INSERT_TRANSPORT);
+      pr.setString(1, entity.getType());
+      pr.setInt(2, entity.getSpeed());
+      pr.setDouble(3, entity.getConsumption());
       pr.execute();
     } catch (SQLException e) {
       throw new DAOException("There was a problem while doing the statement" + e);
@@ -68,13 +70,14 @@ public class CoordinateDAO extends AbstractDAO implements ICoordinateDAO {
   }
 
   @Override
-  public void updateEntity(long id, Coordinate entity) {
+  public void updateEntity(long id, Transport entity) {
     PreparedStatement pr = null;
     try (Connection con = getConnection()) {
-      pr = con.prepareStatement(UPDATE_COORDINATE_BY_ID);
-      pr.setInt(1, entity.getX());
-      pr.setInt(2, entity.getY());
-      pr.setLong(3, id);
+      pr = con.prepareStatement(UPDATE_TRANSPORT_BY_ID);
+      pr.setString(1, entity.getType());
+      pr.setInt(2, entity.getSpeed());
+      pr.setDouble(3, entity.getConsumption());
+      pr.setLong(4, id);
       pr.execute();
     } catch (SQLException e) {
       throw new DAOException("There was a problem while doing the statement" + e);
@@ -92,7 +95,7 @@ public class CoordinateDAO extends AbstractDAO implements ICoordinateDAO {
   public void deleteEntityById(long id) {
     PreparedStatement pr = null;
     try (Connection con = getConnection()) {
-      pr = con.prepareStatement(DELETE_COORDINATE_BY_ID);
+      pr = con.prepareStatement(DELETE_TRANSPORT_BY_ID);
       pr.setLong(1, id);
       pr.execute();
     } catch (SQLException e) {
@@ -108,7 +111,7 @@ public class CoordinateDAO extends AbstractDAO implements ICoordinateDAO {
   }
 
   @Override
-  public List<Coordinate> getAllCoordinates() {
+  public List<Transport> getAllTransports() {
     throw new UnsupportedOperationException("This method should be implemented");
   }
 }

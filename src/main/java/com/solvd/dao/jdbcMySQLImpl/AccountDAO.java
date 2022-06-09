@@ -11,10 +11,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class AccountDAO extends AbstractDAO implements IAccountDAO {
-  private final static String SELECT_BY_ACCOUNT_ID = "SELECT * FROM Accounts WHERE idAccounts=?";
-  private final static String DELETE_ACCOUNT_BY_ID = "DELETE FROM Accounts WHERE idAccounts=?";
-  private final static String UPDATE_ACCOUNT_BY_ID = "UPDATE Accounts SET userName=?, password=? WHERE idAccounts=?";
-  private final static String INSERT_ACCOUNT = "INSERT INTO Cards (userName,password) VALUES (?,?,?)";
+  private final static String SELECT_BY_ACCOUNT_ID = "SELECT * FROM Accounts WHERE id=?";
+  private final static String DELETE_ACCOUNT_BY_ID = "DELETE FROM Accounts WHERE id=?";
+  private final static String UPDATE_ACCOUNT_BY_ID = "UPDATE Accounts SET userName=?, password=? WHERE id=?";
+  private final static String INSERT_ACCOUNT = "INSERT INTO Accounts (userName,password) VALUES (?,?)";
 
   @Override
   public Account getEntityById(long id) throws DAOException {
@@ -26,7 +26,7 @@ public class AccountDAO extends AbstractDAO implements IAccountDAO {
       rs = pr.executeQuery();
       Account account = new Account();
       rs.next();
-      account.setId(Integer.parseInt(rs.getString("idAccounts")));
+      account.setId(Integer.parseInt(rs.getString("id")));
       account.setUserName(rs.getString("userName"));
       account.setPassword(rs.getString("password"));
 

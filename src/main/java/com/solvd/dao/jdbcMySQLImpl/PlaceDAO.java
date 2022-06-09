@@ -1,9 +1,9 @@
 package com.solvd.dao.jdbcMySQLImpl;
 
 import com.solvd.bin.Coordinate;
-import com.solvd.bin.user.Account;
-import com.solvd.dao.IAccountDAO;
+import com.solvd.bin.Place;
 import com.solvd.dao.ICoordinateDAO;
+import com.solvd.dao.IPlaceDAO;
 import com.solvd.exceptions.DAOException;
 
 import java.sql.Connection;
@@ -12,27 +12,26 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class CoordinateDAO extends AbstractDAO implements ICoordinateDAO {
-  private final static String SELECT_BY_COORDINATE_ID = "SELECT * FROM Coordinates WHERE id=?";
-  private final static String DELETE_COORDINATE_BY_ID = "DELETE FROM Coordinates WHERE id=?";
-  private final static String UPDATE_COORDINATE_BY_ID = "UPDATE Coordinates SET x=?, y=? WHERE id=?";
-  private final static String INSERT_COORDINATE = "INSERT INTO Coordinates (x,y) VALUES (?,?)";
+public class PlaceDAO extends AbstractDAO implements IPlaceDAO {
+  private final static String SELECT_BY_PLACE_ID = "SELECT * FROM Places WHERE id=?";
+  private final static String DELETE_PLACE_BY_ID = "DELETE FROM Places WHERE id=?";
+  private final static String UPDATE_PLACE_BY_ID = "UPDATE Places SET name=?, location_id=? WHERE id=?";
+  private final static String INSERT_PLACE = "INSERT INTO Places (name,location_id) VALUES (?,?)";
 
   @Override
-  public Coordinate getEntityById(long id) throws DAOException {
+  public Place getEntityById(long id) {
     PreparedStatement pr = null;
     ResultSet rs = null;
     try (Connection con = getConnection()) {
-      pr = con.prepareStatement(SELECT_BY_COORDINATE_ID);
+      pr = con.prepareStatement(SELECT_BY_PLACE_ID);
       pr.setLong(1, id);
       rs = pr.executeQuery();
-      Coordinate coordinate = new Coordinate();
+      Place place = new Place();
       rs.next();
-      coordinate.setId(Integer.parseInt(rs.getString("id")));
-      coordinate.setX(Integer.parseInt(rs.getString("x")));
-      coordinate.setY(Integer.parseInt(rs.getString("y")));
+      place.setId(Integer.parseInt(rs.getString("id")));
+      place.setName(rs.getString("name"));
 
-      return coordinate;
+      return place;
     } catch (SQLException e) {
       throw new DAOException("There was a problem while doing the statement" + e);
     } finally {
@@ -48,12 +47,12 @@ public class CoordinateDAO extends AbstractDAO implements ICoordinateDAO {
   }
 
   @Override
-  public void saveEntity(Coordinate entity) {
+  public void saveEntity(Place entity) {
     PreparedStatement pr = null;
     try (Connection con = getConnection()) {
-      pr = con.prepareStatement(INSERT_COORDINATE);
-      pr.setInt(1, entity.getX());
-      pr.setInt(2, entity.getY());
+      pr = con.prepareStatement(INSERT_PLACE);
+      pr.setString(1, entity.getName());
+      pr.setInt(2, entity.getLocation().getId());
       pr.execute();
     } catch (SQLException e) {
       throw new DAOException("There was a problem while doing the statement" + e);
@@ -68,12 +67,12 @@ public class CoordinateDAO extends AbstractDAO implements ICoordinateDAO {
   }
 
   @Override
-  public void updateEntity(long id, Coordinate entity) {
+  public void updateEntity(long id, Place entity) {
     PreparedStatement pr = null;
     try (Connection con = getConnection()) {
-      pr = con.prepareStatement(UPDATE_COORDINATE_BY_ID);
-      pr.setInt(1, entity.getX());
-      pr.setInt(2, entity.getY());
+      pr = con.prepareStatement(UPDATE_PLACE_BY_ID);
+      pr.setString(1, entity.getName());
+      pr.setInt(2, entity.getLocation().getId());
       pr.setLong(3, id);
       pr.execute();
     } catch (SQLException e) {
@@ -92,7 +91,7 @@ public class CoordinateDAO extends AbstractDAO implements ICoordinateDAO {
   public void deleteEntityById(long id) {
     PreparedStatement pr = null;
     try (Connection con = getConnection()) {
-      pr = con.prepareStatement(DELETE_COORDINATE_BY_ID);
+      pr = con.prepareStatement(DELETE_PLACE_BY_ID);
       pr.setLong(1, id);
       pr.execute();
     } catch (SQLException e) {
@@ -105,10 +104,5 @@ public class CoordinateDAO extends AbstractDAO implements ICoordinateDAO {
         throw new DAOException("Exception while closing the statement" + e);
       }
     }
-  }
-
-  @Override
-  public List<Coordinate> getAllCoordinates() {
-    throw new UnsupportedOperationException("This method should be implemented");
   }
 }
