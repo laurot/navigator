@@ -7,6 +7,7 @@ import java.sql.SQLException;
 
 public class AbstractDAO {
 
-  public Connection getConnection() throws SQLException { return DBCPDataSource.getConnection(); }
-
+  public Connection getConnection() throws SQLException {
+    return DBCPDataSource.getConnection();
+  }
 }
