@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Input {
 
-    public final Scanner sc = new Scanner(System.in);
+    private final Scanner sc = new Scanner(System.in);
 
     private static final Input instance = new Input();
 

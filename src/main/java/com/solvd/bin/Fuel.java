@@ -5,7 +5,7 @@ import java.util.Objects;
 public class Fuel {
   private int id;
   private String type;
-  private int price;
+  private double price;
 
   public Fuel(String type, int price) {
     this.type = type;
@@ -18,10 +18,10 @@ public class Fuel {
   public void setType(String type) {
     this.type = type;
   }
-  public int getPrice() {
+  public double getPrice() {
     return price;
   }
-  public void setPrice(int price) {
+  public void setPrice(double price) {
     this.price = price;
   }
   public int getId() {
