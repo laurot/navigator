@@ -7,5 +7,6 @@ public interface IAccountServices {
     void changeUsername(Account account);   //pide nuevo username y hace un update
     void changePass(Account account);       //lo de arriba con pass
     void deleteAccount(Account account);    //borra la cuenta
-    void login();                        //pregunta si place o user y hace el login
+    void login();                           //pregunta si place o user y hace el login
+    void accountSettings();                 //Da opciones de cambiar username, pass o borrar la cuenta
 }
