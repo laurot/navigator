@@ -15,6 +15,10 @@ public class Account {
     validator.validateAtributes(userName, password);
   }
 
+  public Account() {
+
+  }
+
   public String getUserName() {
     return userName;
   }

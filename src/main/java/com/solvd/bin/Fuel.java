@@ -3,7 +3,12 @@ package com.solvd.bin;
 public class Fuel {
   private String type;
   private int price;
-  
+
+  public Fuel(String type, int price) {
+    this.type = type;
+    this.price = price;
+  }
+
   public String getType() {
     return type;
   }
