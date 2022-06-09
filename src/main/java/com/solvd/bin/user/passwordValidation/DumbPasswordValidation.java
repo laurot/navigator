@@ -8,13 +8,13 @@ import java.nio.file.Paths;
 import java.util.List;
 
 public class DumbPasswordValidation implements IValidate {
-  private List<String> listaContrasenas = leerArchivo();
+  private List<String> passwordList = readFile();
 
-  public List<String> leerArchivo() {
-    Path pathArchivo = Paths.get("src/main/resources/passwordlist.txt");
+  public List<String> readFile() {
+    Path pathFile = Paths.get("src/main/resources/passwordlist.txt");
 
     try {
-      return Files.readAllLines(pathArchivo, StandardCharsets.UTF_8);
+      return Files.readAllLines(pathFile, StandardCharsets.UTF_8);
     } catch (IOException e) {
       throw new RuntimeException("The file could not be opened" + e);
     }
@@ -22,7 +22,7 @@ public class DumbPasswordValidation implements IValidate {
 
   @Override
   public void validate(String pass) {
-    if (this.listaContrasenas.contains(pass)) {
+    if (this.passwordList.contains(pass)) {
       throw new RuntimeException("The password is not safe, it is one of the 10.000 dumb passwords.");
     }
   }

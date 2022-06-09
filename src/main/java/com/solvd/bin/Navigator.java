@@ -1,4 +1,4 @@
-package com.solvd.services;
+package com.solvd.bin;
 
 import java.util.ArrayList;
 import java.util.HashSet;

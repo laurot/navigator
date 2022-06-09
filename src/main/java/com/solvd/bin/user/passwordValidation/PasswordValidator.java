@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PasswordValidator {
-  private List<IValidate> validadores = new ArrayList<>();
+  private List<IValidate> validators = new ArrayList<>();
 
-  public void validateAtributes(String contrasenia, String nombreUsuario) {
-    getValidations().forEach(validador -> validador.validate(contrasenia));
+  public void validateAtributes(String password, String userName) {
+    getValidations().forEach(validator -> validator.validate(password));
   }
 
-  public void agregarValidador(IValidate validador) {
-    validadores.add(validador);
+  public void addValidator(IValidate validator) {
+    validators.add(validator);
   }
 
   private List<IValidate> getValidations() {
-    return validadores;
+    return validators;
   }
 }
