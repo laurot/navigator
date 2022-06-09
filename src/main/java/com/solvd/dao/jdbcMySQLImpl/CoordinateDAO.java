@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class CoordinateDAO extends AbstractDAO implements ICoordinateDAO {
   private final static String SELECT_BY_ACCOUNT_ID = "SELECT * FROM Coordinates WHERE idAccounts=?";
@@ -104,5 +105,10 @@ public class CoordinateDAO extends AbstractDAO implements ICoordinateDAO {
         throw new DAOException("Exception while closing the statement" + e);
       }
     }
+  }
+
+  @Override
+  public List<Coordinate> getAllCoordinates() {
+    throw new UnsupportedOperationException("This method should be implemented");
   }
 }
