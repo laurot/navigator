@@ -21,8 +21,7 @@ public class CoordinateDAO extends AbstractDAO implements ICoordinateDAO {
   public Coordinate getEntityById(long id) throws DAOException {
     PreparedStatement pr = null;
     ResultSet rs = null;
-    Connection con = getConnection();
-    try {
+    try (Connection con = getConnection()) {
       pr = con.prepareStatement(SELECT_BY_ACCOUNT_ID);
       pr.setLong(1, id);
       rs = pr.executeQuery();
@@ -36,7 +35,6 @@ public class CoordinateDAO extends AbstractDAO implements ICoordinateDAO {
     } catch (SQLException e) {
       throw new DAOException("There was a problem while doing the statement" + e);
     } finally {
-      returnConnection(con);
       try {
         if (pr != null)
           pr.close();
@@ -49,18 +47,16 @@ public class CoordinateDAO extends AbstractDAO implements ICoordinateDAO {
   }
 
   @Override
-  public void saveEntity(Account entity) {
+  public void saveEntity(Coordinate entity) {
     PreparedStatement pr = null;
-    Connection con = getConnection();
-    try {
+    try (Connection con = getConnection()) {
       pr = con.prepareStatement(INSERT_ACCOUNT);
-      pr.setString(1, entity.getUserName());
-      pr.setString(2, entity.getPassword());
+      pr.setInt(1, entity.getX());
+      pr.setInt(2, entity.getY());
       pr.executeUpdate();
     } catch (SQLException e) {
       throw new DAOException("There was a problem while doing the statement" + e);
     } finally {
-      returnConnection(con);
       try {
         if (pr != null)
           pr.close();
@@ -71,19 +67,17 @@ public class CoordinateDAO extends AbstractDAO implements ICoordinateDAO {
   }
 
   @Override
-  public void updateEntity(long id, Account entity) {
+  public void updateEntity(long id, Coordinate entity) {
     PreparedStatement pr = null;
-    Connection con = getConnection();
-    try {
+    try (Connection con = getConnection()) {
       pr = con.prepareStatement(UPDATE_ACCOUNT_BY_ID);
-      pr.setString(1, entity.getUserName());
-      pr.setString(2, entity.getPassword());
+      pr.setInt(1, entity.getX());
+      pr.setInt(2, entity.getY());
       pr.setLong(3, id);
       pr.execute();
     } catch (SQLException e) {
       throw new DAOException("There was a problem while doing the statement" + e);
     } finally {
-      returnConnection(con);
       try {
         if (pr != null)
           pr.close();
@@ -96,15 +90,13 @@ public class CoordinateDAO extends AbstractDAO implements ICoordinateDAO {
   @Override
   public void deleteEntityById(long id) {
     PreparedStatement pr = null;
-    Connection con = getConnection();
-    try {
+    try (Connection con = getConnection()) {
       pr = con.prepareStatement(DELETE_ACCOUNT_BY_ID);
       pr.setLong(1, id);
       pr.execute();
     } catch (SQLException e) {
       throw new DAOException("There was a problem while doing the statement" + e);
     } finally {
-      returnConnection(con);
       try {
         if (pr != null)
           pr.close();

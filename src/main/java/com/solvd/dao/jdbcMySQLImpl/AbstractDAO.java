@@ -1,14 +1,12 @@
 package com.solvd.dao.jdbcMySQLImpl;
 
-import com.solvd.util.ConnectionPool;
+import com.solvd.util.DBCPDataSource;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 
 public class AbstractDAO {
 
-  public Connection getConnection() { return ConnectionPool.getInstance().getConnection(); }
+  public Connection getConnection() throws SQLException { return DBCPDataSource.getConnection(); }
 
-  public void returnConnection(Connection connection) {
-    ConnectionPool.getInstance().returnConnection(connection);
-  }
 }
