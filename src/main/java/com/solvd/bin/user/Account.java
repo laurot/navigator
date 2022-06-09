@@ -5,6 +5,7 @@ import com.solvd.bin.user.passwordValidation.PasswordValidator;
 import java.util.Objects;
 
 public class Account {
+  private int id;
   private String userName;
   private String password;
   private PasswordValidator validator;
@@ -43,38 +44,34 @@ public class Account {
     this.validator = validator;
   }
 
+  public int getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
+  }
+
   @Override
-  public boolean equals(Object obj) {
-    if (obj == null) {
-      return false;
-    }
-    if (obj.getClass() != this.getClass()) {
-      return false;
-    }
-    final Account other = (Account) obj;
-    if (!Objects.equals(this.userName, other.userName)) {
-      return false;
-    }
-    if (this.password != other.password) {
-      return false;
-    }
-    if (this.validator != other.validator) {
-      return false;
-    }
-    return true;
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Account account = (Account) o;
+    return id == account.id && Objects.equals(userName, account.userName) && Objects.equals(password, account.password) && Objects.equals(validator, account.validator);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(userName, password, validator);
+    return Objects.hash(id, userName, password, validator);
   }
 
   @Override
   public String toString() {
-    return "Benefit{" +
-        "id=" + userName +
-        ", benefit='" + password +
-        ", benefit='" + validator +
-        '}';
+    return "Account{" +
+            "id=" + id +
+            ", userName='" + userName + '\'' +
+            ", password='" + password + '\'' +
+            ", validator=" + validator +
+            '}';
   }
 }

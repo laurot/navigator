@@ -5,6 +5,7 @@ import com.solvd.bin.Coordinate;
 import java.util.Objects;
 
 public class User {
+  private int id;
   private Coordinate position;
   private Account account;
 
@@ -29,34 +30,33 @@ public class User {
     this.account = account;
   }
 
+  public int getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
+  }
+
   @Override
-  public boolean equals(Object obj) {
-    if (obj == null) {
-      return false;
-    }
-    if (obj.getClass() != this.getClass()) {
-      return false;
-    }
-    final User other = (User) obj;
-    if (!Objects.equals(this.position, other.position)) {
-      return false;
-    }
-    if (this.account != other.account) {
-      return false;
-    }
-    return true;
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    User user = (User) o;
+    return id == user.id && Objects.equals(position, user.position) && Objects.equals(account, user.account);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(position, account);
+    return Objects.hash(id, position, account);
   }
 
   @Override
   public String toString() {
-    return "Benefit{" +
-        "id=" + position +
-        ", benefit='" + account +
-        '}';
+    return "User{" +
+            "id=" + id +
+            ", position=" + position +
+            ", account=" + account +
+            '}';
   }
 }
