@@ -12,9 +12,6 @@ public class Fuel {
     this.price = price;
   }
 
-  public Fuel() {
-  }
-
   public String getType() {
     return type;
   }
