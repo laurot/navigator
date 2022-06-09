@@ -26,4 +26,10 @@ public class PlaceServiceImpl implements IPlaceServices {
     public void placeMenu(Place place) {
 
     }
+
+    @Override
+    public Place pickPlace() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

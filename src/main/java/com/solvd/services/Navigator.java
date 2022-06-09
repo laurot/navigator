@@ -12,7 +12,7 @@ import com.solvd.bin.Trip;
 
 public class Navigator {
     
-    public Trip getpathList(Trip trip, Coordinate destination){
+    public void Navigate(Trip trip, Coordinate destination){
 
         Path path = new Path();
         Set<Coordinate> allDots = getAllDots();                         //Has to be changed
@@ -48,7 +48,6 @@ public class Navigator {
         pathList.add(destination);
         path.setPath(pathList);
         trip.setPath(path);
-        return trip;
     }
 
     private Set<Coordinate> getAllDots(){
