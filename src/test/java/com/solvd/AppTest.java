@@ -1,4 +1,4 @@
-package com.solv;
+package com.solvd;
 
 import static org.junit.Assert.assertTrue;
 

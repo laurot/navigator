@@ -1,11 +1,8 @@
 package com.solvd.services.jdbcImpl;
 
 import java.util.InputMismatchException;
-
-import com.solvd.bin.user.Account;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import com.solvd.bin.Coordinate;
 import com.solvd.bin.Place;
 import com.solvd.bin.Trip;
