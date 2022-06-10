@@ -107,4 +107,9 @@ public class AccountServiceImpl implements IAccountServices {
             accountSettings(account);
         }
     }
+
+    @Override
+    public void accountSettings() {
+
+    }
 }
