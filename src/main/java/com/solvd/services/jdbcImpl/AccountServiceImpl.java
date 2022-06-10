@@ -32,4 +32,9 @@ public class AccountServiceImpl implements IAccountServices {
     public void login() {
 
     }
+
+    @Override
+    public void accountSettings() {
+
+    }
 }
