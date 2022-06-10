@@ -18,12 +18,15 @@ public class Place {
   public String getName() {
     return name;
   }
+
   public void setName(String name) {
     this.name = name;
   }
+
   public Coordinate getLocation() {
     return location;
   }
+
   public void setLocation(Coordinate location) {
     this.location = location;
   }
@@ -52,9 +55,9 @@ public class Place {
   @Override
   public String toString() {
     return "Place{" +
-            "id=" + id +
-            ", name='" + name + '\'' +
-            ", location=" + location +
-            '}';
+        "id=" + id +
+        ", name='" + name + '\'' +
+        ", location=" + location +
+        '}';
   }
 }

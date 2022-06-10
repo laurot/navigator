@@ -65,14 +65,14 @@ public class TripDAO extends AbstractDAO implements ITripDAO {
   }
 
   @Override
-  public void updateEntity(long id, Trip entity) {
+  public void updateEntity(Trip entity) {
     PreparedStatement pr = null;
     try (Connection con = getConnection()) {
       pr = con.prepareStatement(UPDATE_TRIP_BY_ID);
       pr.setInt(1, entity.getTransport().getId());
       pr.setInt(2, entity.getUser().getId());
       pr.setInt(2, entity.getPath().getId());
-      pr.setLong(3, id);
+      pr.setLong(3, entity.getId());
       pr.executeUpdate();
     } catch (SQLException e) {
       throw new DAOException("There was a problem while doing the statement" + e);

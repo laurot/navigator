@@ -64,13 +64,13 @@ public class UserDAO extends AbstractDAO implements IUserDAO {
   }
 
   @Override
-  public void updateEntity(long id, User entity) {
+  public void updateEntity(User entity) {
     PreparedStatement pr = null;
     try (Connection con = getConnection()) {
       pr = con.prepareStatement(UPDATE_USER_BY_ID);
       pr.setInt(1, entity.getPosition().getId());
       pr.setInt(2, entity.getAccount().getId());
-      pr.setLong(3, id);
+      pr.setLong(3, entity.getId());
       pr.executeUpdate();
     } catch (SQLException e) {
       throw new DAOException("There was a problem while doing the statement" + e);

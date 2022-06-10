@@ -66,13 +66,13 @@ public class AccountDAO extends AbstractDAO implements IAccountDAO {
   }
 
   @Override
-  public void updateEntity(long id, Account entity) {
+  public void updateEntity(Account entity) {
     PreparedStatement pr = null;
     try (Connection con = getConnection()) {
       pr = con.prepareStatement(UPDATE_ACCOUNT_BY_ID);
       pr.setString(1, entity.getUserName());
       pr.setString(2, entity.getPassword());
-      pr.setLong(3, id);
+      pr.setLong(3, entity.getId());
       pr.executeUpdate();
     } catch (SQLException e) {
       throw new DAOException("There was a problem while doing the statement" + e);

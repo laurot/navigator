@@ -70,14 +70,14 @@ public class TransportDAO extends AbstractDAO implements ITransportDAO {
   }
 
   @Override
-  public void updateEntity(long id, Transport entity) {
+  public void updateEntity(Transport entity) {
     PreparedStatement pr = null;
     try (Connection con = getConnection()) {
       pr = con.prepareStatement(UPDATE_TRANSPORT_BY_ID);
       pr.setString(1, entity.getType());
       pr.setInt(2, entity.getSpeed());
       pr.setDouble(3, entity.getConsumption());
-      pr.setLong(4, id);
+      pr.setLong(4, entity.getId());
       pr.executeUpdate();
     } catch (SQLException e) {
       throw new DAOException("There was a problem while doing the statement" + e);
