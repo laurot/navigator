@@ -45,7 +45,6 @@ public class UserServiceImpl implements IUserServices {
     @Override
     public void userMenu(User user) {
         IAccountServices accountServiceImpl = new AccountServiceImpl();
-        Account account = new Account();
         int option;
         try{
             if(user.getPosition() == null)LOGGER.info("You have to set your position before navigating");
@@ -65,7 +64,7 @@ public class UserServiceImpl implements IUserServices {
                         changePosition(user);
                         break;
                     case 3:
-                        accountServiceImpl.accountSettings(account);
+                        accountServiceImpl.accountSettings(user.getAccount());
                         break;
                     case 0:
                         LOGGER.info("Logging out...");
