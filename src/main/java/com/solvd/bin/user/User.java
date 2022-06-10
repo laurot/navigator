@@ -58,9 +58,9 @@ public class User {
   @Override
   public String toString() {
     return "User{" +
-            "id=" + id +
-            ", position=" + position +
-            ", account=" + account +
-            '}';
+        "id=" + id +
+        ", position=" + position +
+        ", account=" + account +
+        '}';
   }
 }

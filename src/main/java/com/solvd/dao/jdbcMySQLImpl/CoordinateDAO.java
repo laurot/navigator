@@ -68,13 +68,13 @@ public class CoordinateDAO extends AbstractDAO implements ICoordinateDAO {
   }
 
   @Override
-  public void updateEntity(long id, Coordinate entity) {
+  public void updateEntity(Coordinate entity) {
     PreparedStatement pr = null;
     try (Connection con = getConnection()) {
       pr = con.prepareStatement(UPDATE_COORDINATE_BY_ID);
       pr.setInt(1, entity.getX());
       pr.setInt(2, entity.getY());
-      pr.setLong(3, id);
+      pr.setLong(3, entity.getId());
       pr.executeUpdate();
     } catch (SQLException e) {
       throw new DAOException("There was a problem while doing the statement" + e);

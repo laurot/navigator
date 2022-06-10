@@ -22,18 +22,23 @@ public class Trip {
   public Transport getTransport() {
     return transport;
   }
+
   public void setTransport(Transport transport) {
     this.transport = transport;
   }
+
   public User getUser() {
     return user;
   }
+
   public void setUser(User user) {
     this.user = user;
   }
+
   public Path getPath() {
     return path;
   }
+
   public void setPath(Path path) {
     this.path = path;
   }
@@ -62,10 +67,10 @@ public class Trip {
   @Override
   public String toString() {
     return "Trip{" +
-            "id=" + id +
-            ", transport=" + transport +
-            ", user=" + user +
-            ", path=" + path +
-            '}';
+        "id=" + id +
+        ", transport=" + transport +
+        ", user=" + user +
+        ", path=" + path +
+        '}';
   }
 }

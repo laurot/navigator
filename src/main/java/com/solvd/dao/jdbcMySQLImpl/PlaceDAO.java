@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Set;
 
 public class PlaceDAO extends AbstractDAO implements IPlaceDAO {
   private final static String SELECT_BY_PLACE_ID = "SELECT * FROM Places WHERE id=?";
@@ -67,13 +68,13 @@ public class PlaceDAO extends AbstractDAO implements IPlaceDAO {
   }
 
   @Override
-  public void updateEntity(long id, Place entity) {
+  public void updateEntity(Place entity) {
     PreparedStatement pr = null;
     try (Connection con = getConnection()) {
       pr = con.prepareStatement(UPDATE_PLACE_BY_ID);
       pr.setString(1, entity.getName());
       pr.setInt(2, entity.getLocation().getId());
-      pr.setLong(3, id);
+      pr.setLong(3, entity.getId());
       pr.executeUpdate();
     } catch (SQLException e) {
       throw new DAOException("There was a problem while doing the statement" + e);
@@ -104,5 +105,10 @@ public class PlaceDAO extends AbstractDAO implements IPlaceDAO {
         throw new DAOException("Exception while closing the statement" + e);
       }
     }
+  }
+
+  @Override
+  public Set<Place> getAllPlaces() {
+    throw new UnsupportedOperationException("This method should be implemented");
   }
 }
