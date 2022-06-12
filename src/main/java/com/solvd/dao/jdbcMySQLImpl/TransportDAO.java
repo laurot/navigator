@@ -1,7 +1,12 @@
 package com.solvd.dao.jdbcMySQLImpl;
 
+import com.solvd.bin.Coordinate;
+import com.solvd.bin.Fuel;
 import com.solvd.bin.Place;
 import com.solvd.bin.Transport;
+import com.solvd.bin.user.Account;
+import com.solvd.dao.IAccountDAO;
+import com.solvd.dao.ICoordinateDAO;
 import com.solvd.dao.IPlaceDAO;
 import com.solvd.dao.ITransportDAO;
 import com.solvd.exceptions.DAOException;
@@ -11,9 +16,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class TransportDAO extends AbstractDAO implements ITransportDAO {
   private final static String SELECT_BY_TRANSPORT_ID = "SELECT * FROM Transports WHERE id=?";
+  private final static String SELECT_ALL_TRANSPORTS = "SELECT * FROM Transports";
   private final static String DELETE_TRANSPORT_BY_ID = "DELETE FROM Transports WHERE id=?";
   private final static String UPDATE_TRANSPORT_BY_ID = "UPDATE Transports SET type=?, speed=?, consumption=? WHERE id=?";
   private final static String INSERT_TRANSPORT = "INSERT INTO Transports (type,speed,consumption) VALUES (?,?,?)";
@@ -111,7 +119,34 @@ public class TransportDAO extends AbstractDAO implements ITransportDAO {
   }
 
   @Override
-  public List<Transport> getAllTransports() {
-    throw new UnsupportedOperationException("This method should be implemented");
+  public Set<Transport> getAllTransports() {
+    Set<Transport> transports = new TreeSet<Transport>();
+    PreparedStatement pr = null;
+    ResultSet rs = null;
+    try (Connection con = getConnection()) {
+      pr = con.prepareStatement(SELECT_ALL_TRANSPORTS);
+      rs = pr.executeQuery();
+      Transport transportAux = new Transport();
+
+      while (rs.next()) {
+
+        transportAux.setId(rs.getInt("id"));
+        transportAux.setType(rs.getString("type"));
+        transportAux.setSpeed(Integer.parseInt(rs.getString("speed")));
+        transportAux.setConsumption(Double.parseDouble(rs.getString("consumption")));
+        int fuelIdAux = (Integer.parseInt(rs.getString("fuel_id")));
+        //Ifuel fuelDAO = new FuelDAO();
+        //Fuel fuelAux = fuelDAO.getEntityById(fuelIdAux);
+        //transportAux.setFuel(fuelAux);
+
+        transports.add(transportAux);
+      }
+
+      rs.close();
+    } catch (Exception e) {
+      System.out.println(e);
+    }
+
+    return transports;
   }
 }

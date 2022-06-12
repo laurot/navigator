@@ -6,4 +6,5 @@ import com.solvd.bin.Place;
 
 public interface IPlaceDAO extends IBaseDAO<Place>{
     Set<Place> getAllPlaces();
+    Place getEntityByName(String name);
 }

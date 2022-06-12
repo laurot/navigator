@@ -16,7 +16,6 @@ public class CoordinateServiceImpl implements ICoordinateServices {
     @Override
     public List<Coordinate> getAllDots() {
         return coordinateDAO.getAllCoordinates();
-
     }
 
     @Override

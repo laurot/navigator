@@ -1,15 +1,19 @@
 package com.solvd.bin;
 
+import com.solvd.bin.user.Account;
+
 import java.util.Objects;
 
 public class Place {
   private int id;
   private String name;
   private Coordinate location;
+  private Account account;
 
-  public Place(String name, Coordinate location) {
+  public Place(String name, Coordinate location, Account account) {
     this.name = name;
     this.location = location;
+    this.account = account;
   }
 
   public Place() {
@@ -29,6 +33,14 @@ public class Place {
 
   public void setLocation(Coordinate location) {
     this.location = location;
+  }
+
+  public Account getAccount() {
+    return account;
+  }
+
+  public void setAccount(Account account) {
+    this.account = account;
   }
 
   public int getId() {

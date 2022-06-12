@@ -26,6 +26,8 @@ public class UserServiceImpl implements IUserServices {
             coordinate.setX(Input.getInput().nextInt());
             LOGGER.info("Insert new Y coordinate:");
             coordinate.setY(Input.getInput().nextInt());
+            user.setPosition(coordinate);
+            LOGGER.info("Your new user position has been changed correctly");
         }catch(InputMismatchException ime){
             LOGGER.warn("Not a valid input");
             changePosition(user);

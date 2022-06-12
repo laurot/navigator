@@ -2,6 +2,7 @@ package com.solvd.services.jdbcImpl;
 
 import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,8 +17,8 @@ public class TransportServiceImpl implements ITransportServices {
     
     @Override
     public Transport pickTransport() {
-        try {
-            List<Transport> transports = new TransportDAO().getAllTransports();
+        /*try {
+            Set<Transport> transports = new TransportDAO().getAllTransports();
             LOGGER.info("Pick a transport:");
             for (int i = 0; i < transports.size()-1; i++) {
                 LOGGER.info("----------------------------------------------------------");
@@ -29,6 +30,7 @@ public class TransportServiceImpl implements ITransportServices {
         } catch (InputMismatchException ime) {
             LOGGER.info("Invalid input");
             return pickTransport();
-        }
+        }*/
+        return null;
     }
 }
