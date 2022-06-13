@@ -9,12 +9,12 @@ import com.solvd.bin.Trip;
 import com.solvd.bin.user.User;
 import com.solvd.dao.IUserDAO;
 import com.solvd.dao.jdbcMySQLImpl.UserDAO;
-import com.solvd.services.IAccountServices;
-import com.solvd.services.IUserServices;
+import com.solvd.services.AccountServices;
+import com.solvd.services.UserServices;
 import com.solvd.services.Navigator;
 import com.solvd.util.Input;
 
-public class UserServiceImpl implements IUserServices {
+public class UserServiceImpl implements UserServices {
 
     private static final Logger LOGGER = LogManager.getLogger();
     
@@ -43,7 +43,7 @@ public class UserServiceImpl implements IUserServices {
 
     @Override
     public void userMenu(User user) {
-        IAccountServices accountServiceImpl = new AccountServiceImpl();
+        AccountServices accountServiceImpl = new AccountServiceImpl();
         int option;
         try{
             if(user.getPosition() == null)LOGGER.info("You have to set your position before navigating");
@@ -96,7 +96,7 @@ public class UserServiceImpl implements IUserServices {
         }
         LOGGER.info("Total distance is: " + trip.getPath().getDistance() + "kms");
         LOGGER.info("With " + trip.getTransport().getType() + "it will take:");
-        LOGGER.info("Aproximately " + trip.getPath().getDistance()/trip.getTransport().getSpeed() + " hours");
+        LOGGER.info("Approximately " + trip.getPath().getDistance()/trip.getTransport().getSpeed() + " hours");
         LOGGER.info("And cost approximately $" + trip.getPath().getDistance()*consumptionPrice);
         LOGGER.info("--ENTER to continue--");
         new TripServiceImpl().saveTrip(trip);

@@ -3,14 +3,14 @@ package com.solvd.services.jdbcImpl;
 import com.solvd.bin.user.Account;
 import com.solvd.dao.IAccountDAO;
 import com.solvd.dao.jdbcMySQLImpl.AccountDAO;
-import com.solvd.services.IAccountServices;
+import com.solvd.services.AccountServices;
 import com.solvd.util.Input;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.InputMismatchException;
 
-public class AccountServiceImpl implements IAccountServices {
+public class AccountServiceImpl implements AccountServices {
     private Logger LOGGER = LogManager.getLogger(AccountServiceImpl.class);
     private IAccountDAO accountDAO = new AccountDAO();
 
@@ -55,9 +55,16 @@ public class AccountServiceImpl implements IAccountServices {
             switch (option) {
                 case 1:
                     LOGGER.info("This is an user account, insert your User name and Password: ");
+                    account.getUserName();
+                    account.getPassword();
+                    LOGGER.info("Welcome " + account.getUserName());
                     break;
                 case 2:
                     LOGGER.info("This is a place account, insert your User name and Password: ");
+                    account.getUserName();
+                    account.getPassword();
+
+                    LOGGER.info("Welcome " + account.getUserName());
                     break;
                 case 0:
                     LOGGER.info("Returning...");

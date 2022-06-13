@@ -2,22 +2,19 @@ package com.solvd.services.jdbcImpl;
 
 import com.solvd.bin.Coordinate;
 import com.solvd.bin.Place;
-import com.solvd.bin.Transport;
 import com.solvd.dao.IPlaceDAO;
 import com.solvd.dao.jdbcMySQLImpl.PlaceDAO;
-import com.solvd.dao.jdbcMySQLImpl.TransportDAO;
-import com.solvd.services.IAccountServices;
-import com.solvd.services.IPlaceServices;
+import com.solvd.services.AccountServices;
+import com.solvd.services.PlaceServices;
 import com.solvd.util.Input;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.InputMismatchException;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class PlaceServiceImpl implements IPlaceServices {
+public class PlaceServiceImpl implements PlaceServices {
     private Logger LOGGER = LogManager.getLogger(PlaceServiceImpl.class);
     private IPlaceDAO placeDAO = new PlaceDAO();
 
@@ -47,7 +44,7 @@ public class PlaceServiceImpl implements IPlaceServices {
 
     @Override
     public void placeMenu() {
-        IAccountServices accountServiceImpl = new AccountServiceImpl();
+        AccountServices accountServiceImpl = new AccountServiceImpl();
         LOGGER.info("Please specify the name of your place: ");
         String name = Input.getInput().nextLine();
         Place place = findPlaceByName(name);
