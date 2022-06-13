@@ -1,17 +1,16 @@
 package com.solvd.services.jdbcImpl;
 
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Set;
-
+import com.solvd.dao.jdbcMySQLImpl.TransportDAO;
+import com.solvd.util.Input;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import com.solvd.bin.Transport;
-import com.solvd.dao.jdbcMySQLImpl.TransportDAO;
-import com.solvd.services.ITransportServices;
-import com.solvd.util.Input;
+import com.solvd.services.TransportServices;
 
-public class TransportServiceImpl implements ITransportServices {
+import java.util.InputMismatchException;
+import java.util.Set;
+
+public class TransportServiceImpl implements TransportServices {
 
     private static final Logger LOGGER = LogManager.getLogger();
     

@@ -2,7 +2,7 @@ package com.solvd.services;
 
 import com.solvd.bin.user.User;
 
-public interface IUserServices {
+public interface UserServices {
     void changePosition(User user);         //cambia la posicion actual(si ya existe solo cambia el position_id, sino la crea primero)
     User getUser(User user);                //trae los datos del usuario cuando inicia sesion
     void userMenu(User user);               //opciones de user (cambiar posicion, cambiar username o pass, borrar cuenta, Navegar)

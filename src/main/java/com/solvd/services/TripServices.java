@@ -2,6 +2,6 @@ package com.solvd.services;
 
 import com.solvd.bin.Trip;
 
-public interface ITripServices {
+public interface TripServices {
     void saveTrip(Trip trip);
 }

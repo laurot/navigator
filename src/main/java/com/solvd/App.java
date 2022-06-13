@@ -5,7 +5,7 @@ import java.util.InputMismatchException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.solvd.services.IAccountServices;
+import com.solvd.services.AccountServices;
 import com.solvd.services.jdbcImpl.AccountServiceImpl;
 import com.solvd.util.Input;
 
@@ -13,7 +13,7 @@ public class App {
   private static final Logger LOGGER = LogManager.getLogger();
 
   public static void main(String[] args) {
-    IAccountServices accountServices = new AccountServiceImpl();
+    AccountServices accountServices = new AccountServiceImpl();
     try {
       LOGGER.info("Main menu:");
       LOGGER.info("0.Exit");
