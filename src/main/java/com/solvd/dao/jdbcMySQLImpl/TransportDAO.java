@@ -5,10 +5,7 @@ import com.solvd.bin.Fuel;
 import com.solvd.bin.Place;
 import com.solvd.bin.Transport;
 import com.solvd.bin.user.Account;
-import com.solvd.dao.IAccountDAO;
-import com.solvd.dao.ICoordinateDAO;
-import com.solvd.dao.IPlaceDAO;
-import com.solvd.dao.ITransportDAO;
+import com.solvd.dao.*;
 import com.solvd.exceptions.DAOException;
 
 import java.sql.Connection;
@@ -135,9 +132,9 @@ public class TransportDAO extends AbstractDAO implements ITransportDAO {
         transportAux.setSpeed(Integer.parseInt(rs.getString("speed")));
         transportAux.setConsumption(Double.parseDouble(rs.getString("consumption")));
         int fuelIdAux = (Integer.parseInt(rs.getString("fuel_id")));
-        //Ifuel fuelDAO = new FuelDAO();
-        //Fuel fuelAux = fuelDAO.getEntityById(fuelIdAux);
-        //transportAux.setFuel(fuelAux);
+        IFuelDAO fuelDAO = new FuelDAO();
+        Fuel fuelAux = fuelDAO.getEntityById(fuelIdAux);
+        transportAux.setFuel(fuelAux);
 
         transports.add(transportAux);
       }
