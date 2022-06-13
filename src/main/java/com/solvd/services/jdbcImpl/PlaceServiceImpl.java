@@ -30,6 +30,7 @@ public class PlaceServiceImpl implements PlaceServices {
             LOGGER.info("Your new place location has been changed correctly");
         }catch(InputMismatchException ime){
             LOGGER.warn("Not a valid input");
+Input.getInput().next();
             changeLocation(place);
         }
     }
@@ -79,6 +80,7 @@ public class PlaceServiceImpl implements PlaceServices {
             if(option != 0)placeMenu(place);
         }catch(InputMismatchException ime){
             LOGGER.warn("Not a valid input");
+Input.getInput().next();
             placeMenu(place);
         }
     }
@@ -92,10 +94,10 @@ public class PlaceServiceImpl implements PlaceServices {
     public Place pickPlace() {
         try {
             Set<Place> places = new PlaceDAO().getAllPlaces();
-            LOGGER.info("Pick a place NAME:");
+            LOGGER.info("Pick a place:");
             places.stream().forEach(place -> {
                 LOGGER.info("----------------------------------------------------------");
-                LOGGER.info("-> " + place.getName());
+                LOGGER.info(place.getId() + ". " + place.getName() + " -  " + place.getLocation().toString());
             });
             String placeName = Input.getInput().nextLine();
             Place place = places.stream().filter(p -> p.getName().equals(placeName)).collect(Collectors.toList()).remove(0);

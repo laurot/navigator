@@ -1,9 +1,12 @@
 package com.solvd.services.jdbcImpl;
 
+import com.solvd.bin.Coordinate;
+import com.solvd.bin.Place;
 import com.solvd.bin.user.Account;
 import com.solvd.bin.user.User;
 import com.solvd.dao.IAccountDAO;
 import com.solvd.dao.jdbcMySQLImpl.AccountDAO;
+import com.solvd.dao.jdbcMySQLImpl.PlaceDAO;
 import com.solvd.dao.jdbcMySQLImpl.UserDAO;
 import com.solvd.exceptions.InvalidAccountException;
 import com.solvd.services.AccountServices;
@@ -31,20 +34,29 @@ public class AccountServiceImpl implements AccountServices {
         LOGGER.info("0. Cancel");
         switch (Input.getInput().nextInt()) {
             case 1:
-                accountDAO.saveEntity(account);
                 new UserDAO().saveEntity(new User(account));
                 break;
             case 2:
-            
+                Place place = new Place();
+                Coordinate coordinate = new Coordinate();
+                LOGGER.info("Please insert the name of the place: ");
+                place.setName(Input.getInput().nextLine());
+                LOGGER.info("Please insert the position:");
+                LOGGER.info("X:");
+                coordinate.setX(Input.getInput().nextInt());
+                LOGGER.info("Y:");
+                coordinate.setY(Input.getInput().nextInt());
+                place.setLocation(coordinate);
+                place.setAccount(account);
+                new PlaceDAO().saveEntity(place);
                 break; 
             default:
                 break;
         }
-
-        accountDAO.saveEntity(account);
         
     } catch (InputMismatchException ime) {
         LOGGER.warn("Not a valid input");
+        Input.getInput().next();
         createAccount();
     }
     }
@@ -105,6 +117,7 @@ public class AccountServiceImpl implements AccountServices {
             if (option != 0) login();
         } catch (InputMismatchException ime) {
             LOGGER.warn("Not a valid input");
+Input.getInput().next();
             login();
         } catch (InvalidAccountException iae){
             LOGGER.warn(iae.getMessage());
@@ -144,6 +157,7 @@ public class AccountServiceImpl implements AccountServices {
                 accountSettings(account);
         } catch (InputMismatchException ime) {
             LOGGER.warn("Not a valid input");
+Input.getInput().next();
             accountSettings(account);
         }
     }

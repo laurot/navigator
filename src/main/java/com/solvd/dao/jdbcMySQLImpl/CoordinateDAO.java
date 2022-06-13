@@ -55,10 +55,15 @@ public class CoordinateDAO extends AbstractDAO implements ICoordinateDAO {
   public void saveEntity(Coordinate entity) {
     PreparedStatement pr = null;
     try (Connection con = getConnection()) {
-      pr = con.prepareStatement(INSERT_COORDINATE);
+      pr = con.prepareStatement(INSERT_COORDINATE, PreparedStatement.RETURN_GENERATED_KEYS);
       pr.setInt(1, entity.getX());
       pr.setInt(2, entity.getY());
-      pr.executeUpdate();
+      int affectedRows = pr.executeUpdate();
+      if(affectedRows == 0) throw new SQLException("Saving delivery failed");
+      ResultSet keys = pr.getGeneratedKeys();
+      if (keys.next()) {
+        entity.setId(keys.getInt(1));
+      }
     } catch (SQLException e) {
       throw new DAOException("There was a problem while doing the statement" + e);
     } finally {

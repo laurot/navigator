@@ -7,17 +7,14 @@ import com.solvd.dao.IAccountDAO;
 import com.solvd.exceptions.DAOException;
 import com.solvd.exceptions.InvalidAccountException;
 import java.sql.*;
-import org.apache.logging.log4j.*;
 
 public class AccountDAO extends AbstractDAO implements IAccountDAO {
   private final static String SELECT_BY_ACCOUNT_ID = "SELECT * FROM Accounts WHERE id=?";
   private final static String DELETE_ACCOUNT_BY_ID = "DELETE FROM Accounts WHERE id=?";
   private final static String UPDATE_ACCOUNT_BY_ID = "UPDATE Accounts SET userName=?, pass=? WHERE id=?";
   private final static String INSERT_ACCOUNT = "INSERT INTO Accounts (username,pass) VALUES (?,?)";
-  private final static String AUTHENTICATE_USER = "SELECT a.id as account_id FROM user u LEFT JOIN account a ON u.account_id = a.id WHERE a.username = ? AND a.password = ? ";
-  private final static String AUTHENTICATE_PLACE = "SELECT a.id as account_id, p.id as place_id, p.location_id as location_id, p.name as name FROM place p LEFT JOIN account a ON p.account_id = a.id WHERE a.username = ? AND a.password = ? ";
-
-  private static final Logger LOGGER = LogManager.getLogger();
+  private final static String AUTHENTICATE_USER = "SELECT a.id as account_id FROM users u LEFT JOIN accounts a ON u.account_id = a.id WHERE a.username = ? AND a.pass = ? ";
+  private final static String AUTHENTICATE_PLACE = "SELECT a.id as account_id, p.id as place_id, p.location_id as location_id, p.name as name FROM places p LEFT JOIN accounts a ON p.account_id = a.id WHERE a.username = ? AND a.pass = ? ";
   
   @Override
   public Account getEntityById(long id) throws DAOException {
@@ -59,10 +56,8 @@ public class AccountDAO extends AbstractDAO implements IAccountDAO {
       if(affectedRows == 0) throw new SQLException("Saving delivery failed");
       ResultSet keys = pr.getGeneratedKeys();
       if (keys.next()) {
-        entity.setId(keys.getInt("id"));
+        entity.setId(keys.getInt(1));
       }
-    }catch (SQLIntegrityConstraintViolationException icve){
-      LOGGER.warn("Username already exists");
     }catch (SQLException e) {
       throw new DAOException("There was a problem while doing the statement " + e);
     } finally {

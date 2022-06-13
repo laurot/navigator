@@ -30,6 +30,7 @@ public class UserServiceImpl implements UserServices {
             LOGGER.info("Your new user position has been changed correctly");
         }catch(InputMismatchException ime){
             LOGGER.warn("Not a valid input");
+            Input.getInput().next();
             changePosition(user);
         }
     }
@@ -75,6 +76,7 @@ public class UserServiceImpl implements UserServices {
             if(option != 0)userMenu(user);
         }catch(InputMismatchException ime){
             LOGGER.warn("Not a valid input");
+            Input.getInput().next();
             userMenu(user);
         }
     }

@@ -37,6 +37,7 @@ public class App {
       LOGGER.info("Goodbye");
     } catch (InputMismatchException ime) {
       LOGGER.warn("Not a valid input");
+      Input.getInput().next();
       main(args);
     }
   }

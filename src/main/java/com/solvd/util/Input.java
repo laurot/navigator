@@ -21,6 +21,11 @@ public class Input {
     }
 
     public String nextLine(){
-        return sc.nextLine();
+        String a = sc.nextLine();
+        return a;
+    }
+
+    public void next(){
+        sc.next();
     }
 }

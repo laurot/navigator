@@ -23,7 +23,7 @@ public class PlaceDAO extends AbstractDAO implements IPlaceDAO {
   private final static String SELECT_ALL_PLACES = "SELECT * FROM Places";
   private final static String DELETE_PLACE_BY_ID = "DELETE FROM Places WHERE id=?";
   private final static String UPDATE_PLACE_BY_ID = "UPDATE Places SET name=?, location_id=? WHERE id=?";
-  private final static String INSERT_PLACE = "INSERT INTO Places (name,location_id) VALUES (?,?)";
+  private final static String INSERT_PLACE = "INSERT INTO Places (name,location_id,account_id) VALUES (?,?,?)";
 
   @Override
   public Place getEntityById(long id) {
@@ -56,10 +56,15 @@ public class PlaceDAO extends AbstractDAO implements IPlaceDAO {
   @Override
   public void saveEntity(Place entity) {
     PreparedStatement pr = null;
+    IAccountDAO accountDAO = new AccountDAO();
+    ICoordinateDAO coordinateDAO = new CoordinateDAO();
     try (Connection con = getConnection()) {
       pr = con.prepareStatement(INSERT_PLACE);
+      accountDAO.saveEntity(entity.getAccount());
+      coordinateDAO.saveEntity(entity.getLocation());
       pr.setString(1, entity.getName());
       pr.setInt(2, entity.getLocation().getId());
+      pr.setInt(3, entity.getAccount().getId());
       pr.executeUpdate();
     } catch (SQLException e) {
       throw new DAOException("There was a problem while doing the statement" + e);
