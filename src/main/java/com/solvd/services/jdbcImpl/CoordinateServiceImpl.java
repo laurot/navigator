@@ -8,13 +8,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
+import java.util.Set;
 
 public class CoordinateServiceImpl implements ICoordinateServices {
     private Logger LOGGER = LogManager.getLogger(CoordinateServiceImpl.class);
     private ICoordinateDAO coordinateDAO = new CoordinateDAO();
 
     @Override
-    public List<Coordinate> getAllDots() {
+    public Set<Coordinate> getAllDots() {
         return coordinateDAO.getAllCoordinates();
     }
 
