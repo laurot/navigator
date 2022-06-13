@@ -117,7 +117,7 @@ public class AccountServiceImpl implements AccountServices {
             if (option != 0) login();
         } catch (InputMismatchException ime) {
             LOGGER.warn("Not a valid input");
-Input.getInput().next();
+            Input.getInput().next();
             login();
         } catch (InvalidAccountException iae){
             LOGGER.warn(iae.getMessage());
@@ -157,7 +157,7 @@ Input.getInput().next();
                 accountSettings(account);
         } catch (InputMismatchException ime) {
             LOGGER.warn("Not a valid input");
-Input.getInput().next();
+            Input.getInput().next();
             accountSettings(account);
         }
     }

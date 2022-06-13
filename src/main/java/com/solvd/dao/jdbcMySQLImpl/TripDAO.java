@@ -1,10 +1,8 @@
 package com.solvd.dao.jdbcMySQLImpl;
 
-import com.solvd.bin.Place;
 import com.solvd.bin.Trip;
 import com.solvd.dao.ITripDAO;
 import com.solvd.exceptions.DAOException;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

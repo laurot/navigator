@@ -1,20 +1,15 @@
 package com.solvd.dao.jdbcMySQLImpl;
 
-import com.solvd.bin.Coordinate;
 import com.solvd.bin.Fuel;
-import com.solvd.bin.Place;
 import com.solvd.bin.Transport;
-import com.solvd.bin.user.Account;
 import com.solvd.dao.*;
 import com.solvd.exceptions.DAOException;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 public class TransportDAO extends AbstractDAO implements ITransportDAO {
   private final static String SELECT_BY_TRANSPORT_ID = "SELECT * FROM Transports WHERE id=?";
@@ -116,8 +111,8 @@ public class TransportDAO extends AbstractDAO implements ITransportDAO {
   }
 
   @Override
-  public Set<Transport> getAllTransports() {
-    Set<Transport> transports = new TreeSet<Transport>();
+  public List<Transport> getAllTransports() {
+    List<Transport> transports = new ArrayList<Transport>();
     PreparedStatement pr = null;
     ResultSet rs = null;
     try (Connection con = getConnection()) {
@@ -138,12 +133,10 @@ public class TransportDAO extends AbstractDAO implements ITransportDAO {
 
         transports.add(transportAux);
       }
-
       rs.close();
     } catch (Exception e) {
       System.out.println(e);
     }
-
     return transports;
   }
 }

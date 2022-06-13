@@ -6,9 +6,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import com.solvd.bin.Transport;
 import com.solvd.services.TransportServices;
-
 import java.util.InputMismatchException;
-import java.util.Set;
+import java.util.List;
 
 public class TransportServiceImpl implements TransportServices {
 
@@ -17,15 +16,13 @@ public class TransportServiceImpl implements TransportServices {
     @Override
     public Transport pickTransport() {
         try {
-            Set<Transport> transports = new TransportDAO().getAllTransports();
-            LOGGER.info("Pick a transport by ID:");
+            List<Transport> transports = new TransportDAO().getAllTransports();
+            LOGGER.info("Pick a transport:");
             transports.stream().forEach(transport -> {
                 LOGGER.info("----------------------------------------------------------");
                 LOGGER.info("ID: " + transport.getId() + transport.getType() + " - " + transport.getFuel().getType());
             });
-
-            int j = Input.getInput().nextInt();
-            return pickTransport();
+            return transports.get(Input.getInput().nextInt());
         } catch (InputMismatchException ime) {
             LOGGER.info("Invalid input");
             return pickTransport();

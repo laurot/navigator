@@ -1,9 +1,6 @@
 package com.solvd.dao.jdbcMySQLImpl;
 
 import com.solvd.bin.Coordinate;
-import com.solvd.bin.Transport;
-import com.solvd.bin.user.Account;
-import com.solvd.dao.IAccountDAO;
 import com.solvd.dao.ICoordinateDAO;
 import com.solvd.exceptions.DAOException;
 
@@ -11,7 +8,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
