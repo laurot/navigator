@@ -1,7 +1,7 @@
 package com.solvd.dao.jdbcMySQLImpl;
 
-import com.solvd.bin.Transport;
 import com.solvd.bin.user.User;
+import com.solvd.dao.IAccountDAO;
 import com.solvd.dao.IUserDAO;
 import com.solvd.exceptions.DAOException;
 
@@ -11,10 +11,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserDAO extends AbstractDAO implements IUserDAO {
-  private final static String SELECT_BY_USER_ID = "SELECT * FROM Users WHERE id=?";
-  private final static String DELETE_USER_BY_ID = "DELETE FROM Users WHERE id=?";
-  private final static String UPDATE_USER_BY_ID = "UPDATE Users SET type=?, speed=?, consumption=? WHERE id=?";
-  private final static String INSERT_USER = "INSERT INTO Users (type,speed,consumption) VALUES (?,?,?)";
+  private final static String SELECT_BY_USER_ID = "SELECT * FROM users WHERE id = ?";
+  private final static String DELETE_USER_BY_ID = "DELETE FROM users WHERE id = ?";
+  private final static String UPDATE_USER_BY_ID = "UPDATE users SET position_id = ?, account_id = ? WHERE id=?";
+  private final static String INSERT_USER = "INSERT INTO users (account_id) VALUES (?)";
 
   @Override
   public User getEntityById(long id) {
@@ -46,10 +46,11 @@ public class UserDAO extends AbstractDAO implements IUserDAO {
   @Override
   public void saveEntity(User entity) {
     PreparedStatement pr = null;
+    IAccountDAO accountDAO = new AccountDAO();
     try (Connection con = getConnection()) {
       pr = con.prepareStatement(INSERT_USER);
-      pr.setInt(1, entity.getPosition().getId());
-      pr.setInt(2, entity.getAccount().getId());
+      accountDAO.saveEntity(entity.getAccount());
+      pr.setInt(1, entity.getAccount().getId());
       pr.executeUpdate();
     } catch (SQLException e) {
       throw new DAOException("There was a problem while doing the statement" + e);

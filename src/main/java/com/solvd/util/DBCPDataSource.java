@@ -11,7 +11,7 @@ public class DBCPDataSource {
     static {
         ds.setUrl("jdbc:mysql://localhost/mydb");
         ds.setUsername("root");
-        ds.setPassword("123456");
+        ds.setPassword("");
         ds.setMinIdle(5);
         ds.setMaxIdle(10);
         ds.setMaxOpenPreparedStatements(10);

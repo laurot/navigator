@@ -6,8 +6,6 @@ import com.solvd.dao.jdbcMySQLImpl.CoordinateDAO;
 import com.solvd.services.CoordinateServices;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.util.List;
 import java.util.Set;
 
 public class CoordinateServiceImpl implements CoordinateServices {

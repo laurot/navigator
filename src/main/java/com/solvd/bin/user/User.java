@@ -9,8 +9,7 @@ public class User {
   private Coordinate position;
   private Account account;
 
-  public User(Coordinate position, Account account) {
-    this.position = position;
+  public User(Account account) {
     this.account = account;
   }
 

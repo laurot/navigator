@@ -1,21 +1,24 @@
 package com.solvd.dao.jdbcMySQLImpl;
 
 
+import com.solvd.bin.Place;
 import com.solvd.bin.user.Account;
 import com.solvd.dao.IAccountDAO;
 import com.solvd.exceptions.DAOException;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import com.solvd.exceptions.InvalidAccountException;
+import java.sql.*;
+import org.apache.logging.log4j.*;
 
 public class AccountDAO extends AbstractDAO implements IAccountDAO {
   private final static String SELECT_BY_ACCOUNT_ID = "SELECT * FROM Accounts WHERE id=?";
   private final static String DELETE_ACCOUNT_BY_ID = "DELETE FROM Accounts WHERE id=?";
-  private final static String UPDATE_ACCOUNT_BY_ID = "UPDATE Accounts SET userName=?, password=? WHERE id=?";
-  private final static String INSERT_ACCOUNT = "INSERT INTO Accounts (userName,password) VALUES (?,?)";
+  private final static String UPDATE_ACCOUNT_BY_ID = "UPDATE Accounts SET userName=?, pass=? WHERE id=?";
+  private final static String INSERT_ACCOUNT = "INSERT INTO Accounts (username,pass) VALUES (?,?)";
+  private final static String AUTHENTICATE_USER = "SELECT a.id as account_id FROM user u LEFT JOIN account a ON u.account_id = a.id WHERE a.username = ? AND a.password = ? ";
+  private final static String AUTHENTICATE_PLACE = "SELECT a.id as account_id, p.id as place_id, p.location_id as location_id, p.name as name FROM place p LEFT JOIN account a ON p.account_id = a.id WHERE a.username = ? AND a.password = ? ";
 
+  private static final Logger LOGGER = LogManager.getLogger();
+  
   @Override
   public Account getEntityById(long id) throws DAOException {
     PreparedStatement pr = null;
@@ -49,18 +52,25 @@ public class AccountDAO extends AbstractDAO implements IAccountDAO {
   public void saveEntity(Account entity) {
     PreparedStatement pr = null;
     try (Connection con = getConnection()) {
-      pr = con.prepareStatement(INSERT_ACCOUNT);
+      pr = con.prepareStatement(INSERT_ACCOUNT, PreparedStatement.RETURN_GENERATED_KEYS);
       pr.setString(1, entity.getUserName());
       pr.setString(2, entity.getPassword());
-      pr.executeUpdate();
-    } catch (SQLException e) {
-      throw new DAOException("There was a problem while doing the statement" + e);
+      int affectedRows = pr.executeUpdate();
+      if(affectedRows == 0) throw new SQLException("Saving delivery failed");
+      ResultSet keys = pr.getGeneratedKeys();
+      if (keys.next()) {
+        entity.setId(keys.getInt("id"));
+      }
+    }catch (SQLIntegrityConstraintViolationException icve){
+      LOGGER.warn("Username already exists");
+    }catch (SQLException e) {
+      throw new DAOException("There was a problem while doing the statement " + e);
     } finally {
       try {
         if (pr != null)
           pr.close();
       } catch (SQLException e) {
-        throw new DAOException("Exception while closing the statement" + e);
+        throw new DAOException("Exception while closing the statement " + e);
       }
     }
   }
@@ -99,6 +109,69 @@ public class AccountDAO extends AbstractDAO implements IAccountDAO {
       try {
         if (pr != null)
           pr.close();
+      } catch (SQLException e) {
+        throw new DAOException("Exception while closing the statement" + e);
+      }
+    }
+  }
+
+  @Override
+  public Account authenticateUser(Account account) {
+    PreparedStatement pr = null;
+    ResultSet rs = null;
+    try (Connection con = getConnection()) {
+      pr = con.prepareStatement(AUTHENTICATE_USER);
+      pr.setString(1, account.getUserName());
+      pr.setString(2, account.getPassword());
+      rs = pr.executeQuery();
+      if(rs.next()){
+        account.setId(rs.getInt("account_id"));
+        return account;
+      }else{
+        throw new InvalidAccountException("Username or password is incorrect for a user");
+      }
+    } catch (SQLException e) {
+      throw new DAOException("There was a problem while doing the statement" + e);
+    } finally {
+      try {
+        if (pr != null)
+          pr.close();
+        if (rs != null)
+          rs.close();
+      } catch (SQLException e) {
+        throw new DAOException("Exception while closing the statement" + e);
+      }
+    }
+  }
+
+  @Override
+  public Place authenticatePlace(Account account) {
+    PreparedStatement pr = null;
+    ResultSet rs = null;
+    Place place = new Place();
+    try (Connection con = getConnection()) {
+      pr = con.prepareStatement(AUTHENTICATE_PLACE);
+      pr.setString(1, account.getUserName());
+      pr.setString(2, account.getPassword());
+      rs = pr.executeQuery();
+      if(rs.next()){
+        account.setId(rs.getInt("account_id"));
+        place.setId(rs.getInt("place_id"));
+        place.setAccount(account);
+        place.setLocation(new CoordinateDAO().getEntityById(rs.getInt("location_id")));
+        place.setName(rs.getString("name"));
+        return place;
+      }else{
+        throw new InvalidAccountException("Username or password is incorrect for a place");
+      }
+    } catch (SQLException e) {
+      throw new DAOException("There was a problem while doing the statement" + e);
+    } finally {
+      try {
+        if (pr != null)
+          pr.close();
+        if (rs != null)
+          rs.close();
       } catch (SQLException e) {
         throw new DAOException("Exception while closing the statement" + e);
       }

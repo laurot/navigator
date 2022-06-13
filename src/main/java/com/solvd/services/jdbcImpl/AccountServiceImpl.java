@@ -1,8 +1,11 @@
 package com.solvd.services.jdbcImpl;
 
 import com.solvd.bin.user.Account;
+import com.solvd.bin.user.User;
 import com.solvd.dao.IAccountDAO;
 import com.solvd.dao.jdbcMySQLImpl.AccountDAO;
+import com.solvd.dao.jdbcMySQLImpl.UserDAO;
+import com.solvd.exceptions.InvalidAccountException;
 import com.solvd.services.AccountServices;
 import com.solvd.util.Input;
 import org.apache.logging.log4j.LogManager;
@@ -17,7 +20,33 @@ public class AccountServiceImpl implements AccountServices {
     @Override
     public void createAccount() {
         Account account = new Account();
+    try {
+        LOGGER.info("Please insert your Username: ");
+        account.setUserName(Input.getInput().nextLine());
+        LOGGER.info("Please insert your password: ");
+        account.setPassword(Input.getInput().nextLine());
+        LOGGER.info("What kind of account do you want to make?: ");
+        LOGGER.info("1. User account ");
+        LOGGER.info("2. Place account ");
+        LOGGER.info("0. Cancel");
+        switch (Input.getInput().nextInt()) {
+            case 1:
+                accountDAO.saveEntity(account);
+                new UserDAO().saveEntity(new User(account));
+                break;
+            case 2:
+            
+                break; 
+            default:
+                break;
+        }
+
         accountDAO.saveEntity(account);
+        
+    } catch (InputMismatchException ime) {
+        LOGGER.warn("Not a valid input");
+        createAccount();
+    }
     }
 
     @Override
@@ -54,15 +83,21 @@ public class AccountServiceImpl implements AccountServices {
             option = Input.getInput().nextInt();
             switch (option) {
                 case 1:
-                    LOGGER.info("This is an user account, insert your User name and Password: ");
-                    LOGGER.info("Welcome " + account.getUserName());
-                    break;
+                    LOGGER.info("This is an user account, insert your Username:");
+                    account.setUserName(Input.getInput().nextLine());
+                    LOGGER.info("This is an user account, insert your password:");
+                    account.setPassword(Input.getInput().nextLine());
+                    accountDAO.authenticateUser(account);
+                    new UserServiceImpl().userMenu(new User(account));
                 case 2:
-                    LOGGER.info("This is a place account, insert your User name and Password: ");
-                    LOGGER.info("Welcome " + account.getUserName());
-                    break;
+                    LOGGER.info("This is a place account, insert your Username:");
+                    account.setUserName(Input.getInput().nextLine());
+                    LOGGER.info("This is an user account, insert your password:");
+                    account.setPassword(Input.getInput().nextLine());
+                    new PlaceServiceImpl().placeMenu(accountDAO.authenticatePlace(account));
                 case 0:
                     LOGGER.info("Returning...");
+                    return;
                 default:
                     LOGGER.info("Not valid option");
                     break;
@@ -70,6 +105,9 @@ public class AccountServiceImpl implements AccountServices {
             if (option != 0) login();
         } catch (InputMismatchException ime) {
             LOGGER.warn("Not a valid input");
+            login();
+        } catch (InvalidAccountException iae){
+            LOGGER.warn(iae.getMessage());
             login();
         }
     }
