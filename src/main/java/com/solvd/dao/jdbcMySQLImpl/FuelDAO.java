@@ -1,11 +1,6 @@
 package com.solvd.dao.jdbcMySQLImpl;
 
-import com.solvd.bin.Coordinate;
 import com.solvd.bin.Fuel;
-import com.solvd.bin.Place;
-import com.solvd.bin.user.Account;
-import com.solvd.dao.IAccountDAO;
-import com.solvd.dao.ICoordinateDAO;
 import com.solvd.dao.IFuelDAO;
 import com.solvd.exceptions.DAOException;
 
