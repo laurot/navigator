@@ -17,20 +17,19 @@ public class TransportServiceImpl implements ITransportServices {
     
     @Override
     public Transport pickTransport() {
-        /*try {
+        try {
             Set<Transport> transports = new TransportDAO().getAllTransports();
-            LOGGER.info("Pick a transport:");
-            for (int i = 0; i < transports.size()-1; i++) {
+            LOGGER.info("Pick a transport by ID:");
+            transports.stream().forEach(transport -> {
                 LOGGER.info("----------------------------------------------------------");
-                LOGGER.info(i+1 + ". " + transports.get(i).getType() + " - " + transports.get(i).getFuel().getType());
-            }
+                LOGGER.info("ID: " + transport.getId() + transport.getType() + " - " + transport.getFuel().getType());
+            });
+
             int j = Input.getInput().nextInt();
-            if(j > 0 && j < transports.size()) return transports.get(j-1);
             return pickTransport();
         } catch (InputMismatchException ime) {
             LOGGER.info("Invalid input");
             return pickTransport();
-        }*/
-        return null;
+        }
     }
 }
