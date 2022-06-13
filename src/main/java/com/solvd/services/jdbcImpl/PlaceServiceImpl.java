@@ -46,11 +46,8 @@ public class PlaceServiceImpl implements IPlaceServices {
     }
 
     @Override
-    public void placeMenu() {
+    public void placeMenu(Place place) {
         IAccountServices accountServiceImpl = new AccountServiceImpl();
-        LOGGER.info("Please specify the name of your place: ");
-        String name = Input.getInput().nextLine();
-        Place place = findPlaceByName(name);
         int option;
         try{
             LOGGER.info("Place menu: (" + place.getName() + ")");
@@ -82,10 +79,10 @@ public class PlaceServiceImpl implements IPlaceServices {
                     LOGGER.info("Not a valid option");
                     break;
             }
-            if(option != 0)placeMenu();
+            if(option != 0)placeMenu(place);
         }catch(InputMismatchException ime){
             LOGGER.warn("Not a valid input");
-            placeMenu();
+            placeMenu(place);
         }
     }
 
