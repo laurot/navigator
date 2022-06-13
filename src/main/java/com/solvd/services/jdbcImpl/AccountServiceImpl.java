@@ -55,15 +55,10 @@ public class AccountServiceImpl implements AccountServices {
             switch (option) {
                 case 1:
                     LOGGER.info("This is an user account, insert your User name and Password: ");
-                    account.getUserName();
-                    account.getPassword();
                     LOGGER.info("Welcome " + account.getUserName());
                     break;
                 case 2:
                     LOGGER.info("This is a place account, insert your User name and Password: ");
-                    account.getUserName();
-                    account.getPassword();
-
                     LOGGER.info("Welcome " + account.getUserName());
                     break;
                 case 0:
