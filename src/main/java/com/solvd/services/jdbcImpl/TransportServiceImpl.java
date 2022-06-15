@@ -8,6 +8,7 @@ import com.solvd.bin.Transport;
 import com.solvd.services.TransportServices;
 import java.util.InputMismatchException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TransportServiceImpl implements TransportServices {
 
@@ -17,12 +18,14 @@ public class TransportServiceImpl implements TransportServices {
     public Transport pickTransport() {
         try {
             List<Transport> transports = new TransportDAO().getAllTransports();
-            LOGGER.info("Pick a transport:");
+            LOGGER.info("Pick a transport by Id:");
             transports.stream().forEach(transport -> {
                 LOGGER.info("----------------------------------------------------------");
-                LOGGER.info("ID: " + transport.getId() + transport.getType() + " - " + transport.getFuel().getType());
+                LOGGER.info("Id: " + transport.getId() + " - " + transport.getType() + " - " + transport.getFuel().getType());
             });
-            return transports.get(Input.getInput().nextInt());
+            int i = Input.getInput().nextInt();
+            Transport transport = transports.stream().filter(t -> t.getId() == i).collect(Collectors.toList()).remove(0);
+            return transport;
         } catch (InputMismatchException ime) {
             LOGGER.info("Invalid input");
             return pickTransport();

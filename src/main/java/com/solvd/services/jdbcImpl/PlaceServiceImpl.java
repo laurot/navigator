@@ -95,13 +95,12 @@ Input.getInput().next();
         try {
             Set<Place> places = new PlaceDAO().getAllPlaces();
             LOGGER.info("Pick a place:");
+            LOGGER.info("----------------------------------------------------------");
             places.stream().forEach(place -> {
-                LOGGER.info("----------------------------------------------------------");
                 LOGGER.info(place.getId() + ". " + place.getName() + " -  " + place.getLocation().toString());
             });
-            String placeName = Input.getInput().nextLine();
-            Place place = places.stream().filter(p -> p.getName().equals(placeName)).collect(Collectors.toList()).remove(0);
-
+            int id = Input.getInput().nextInt();
+            Place place = places.stream().filter(p -> p.getId() == id ).collect(Collectors.toList()).remove(0);
             return place;
         } catch (InputMismatchException ime) {
             LOGGER.info("Invalid input");

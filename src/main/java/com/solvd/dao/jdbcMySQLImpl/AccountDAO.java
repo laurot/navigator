@@ -3,6 +3,7 @@ package com.solvd.dao.jdbcMySQLImpl;
 
 import com.solvd.bin.Place;
 import com.solvd.bin.user.Account;
+import com.solvd.bin.user.User;
 import com.solvd.dao.IAccountDAO;
 import com.solvd.exceptions.DAOException;
 import com.solvd.exceptions.InvalidAccountException;
@@ -13,7 +14,7 @@ public class AccountDAO extends AbstractDAO implements IAccountDAO {
   private final static String DELETE_ACCOUNT_BY_ID = "DELETE FROM Accounts WHERE id=?";
   private final static String UPDATE_ACCOUNT_BY_ID = "UPDATE Accounts SET userName=?, pass=? WHERE id=?";
   private final static String INSERT_ACCOUNT = "INSERT INTO Accounts (username,pass) VALUES (?,?)";
-  private final static String AUTHENTICATE_USER = "SELECT a.id as account_id FROM users u LEFT JOIN accounts a ON u.account_id = a.id WHERE a.username = ? AND a.pass = ? ";
+  private final static String AUTHENTICATE_USER = "SELECT a.id as account_id, u.position_id as position_id, u.id as user_id FROM users u LEFT JOIN accounts a ON u.account_id = a.id WHERE a.username = ? AND a.pass = ? ";
   private final static String AUTHENTICATE_PLACE = "SELECT a.id as account_id, p.id as place_id, p.location_id as location_id, p.name as name FROM places p LEFT JOIN accounts a ON p.account_id = a.id WHERE a.username = ? AND a.pass = ? ";
   
   @Override
@@ -27,8 +28,8 @@ public class AccountDAO extends AbstractDAO implements IAccountDAO {
       Account account = new Account();
       rs.next();
       account.setId(Integer.parseInt(rs.getString("id")));
-      account.setUserName(rs.getString("userName"));
-      account.setPassword(rs.getString("password"));
+      account.setUserName(rs.getString("username"));
+      account.setPassword(rs.getString("pass"));
 
       return account;
     } catch (SQLException e) {
@@ -111,7 +112,7 @@ public class AccountDAO extends AbstractDAO implements IAccountDAO {
   }
 
   @Override
-  public Account authenticateUser(Account account) {
+  public User authenticateUser(Account account) {
     PreparedStatement pr = null;
     ResultSet rs = null;
     try (Connection con = getConnection()) {
@@ -121,7 +122,11 @@ public class AccountDAO extends AbstractDAO implements IAccountDAO {
       rs = pr.executeQuery();
       if(rs.next()){
         account.setId(rs.getInt("account_id"));
-        return account;
+        User user = new User();
+        user.setAccount(account);
+        user.setId(rs.getInt("user_id"));
+        user.setPosition(new CoordinateDAO().getEntityById(rs.getInt("position_id")));
+        return user;
       }else{
         throw new InvalidAccountException("Username or password is incorrect for a user");
       }

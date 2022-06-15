@@ -114,14 +114,13 @@ public class TransportDAO extends AbstractDAO implements ITransportDAO {
   public List<Transport> getAllTransports() {
     List<Transport> transports = new ArrayList<Transport>();
     PreparedStatement pr = null;
-    ResultSet rs = null;
+
     try (Connection con = getConnection()) {
       pr = con.prepareStatement(SELECT_ALL_TRANSPORTS);
-      rs = pr.executeQuery();
-      Transport transportAux = new Transport();
-
+      ResultSet rs = pr.executeQuery();
+      
       while (rs.next()) {
-
+        Transport transportAux = new Transport();
         transportAux.setId(rs.getInt("id"));
         transportAux.setType(rs.getString("type"));
         transportAux.setSpeed(Integer.parseInt(rs.getString("speed")));

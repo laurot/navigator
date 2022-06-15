@@ -1,5 +1,6 @@
 package com.solvd.services.jdbcImpl;
 
+import java.text.DecimalFormat;
 import java.util.InputMismatchException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -94,9 +95,9 @@ public class UserServiceImpl implements UserServices {
 
         LOGGER.info("The path you can take to go here is:");
         for (Coordinate coordinate : trip.getPath().getPath()) {
-            LOGGER.info(coordinate.toString());
+            LOGGER.info("( " + coordinate.getX() + ", " + coordinate.getY() + " )");
         }
-        LOGGER.info("Total distance is: " + trip.getPath().getDistance() + "kms");
+        LOGGER.info("Total distance is: " +  new DecimalFormat("#.##").format(trip.getPath().getDistance()) + " kms");
         LOGGER.info("With " + trip.getTransport().getType() + "it will take:");
         LOGGER.info("Approximately " + trip.getPath().getDistance()/trip.getTransport().getSpeed() + " hours");
         LOGGER.info("And cost approximately $" + trip.getPath().getDistance()*consumptionPrice);

@@ -1,5 +1,6 @@
 package com.solvd.dao.jdbcMySQLImpl;
 
+import com.solvd.bin.Coordinate;
 import com.solvd.bin.Trip;
 import com.solvd.dao.ITripDAO;
 import com.solvd.exceptions.DAOException;
@@ -12,7 +13,8 @@ public class TripDAO extends AbstractDAO implements ITripDAO {
   private final static String SELECT_BY_TRIP_ID = "SELECT * FROM Trips WHERE id=?";
   private final static String DELETE_TRIP_BY_ID = "DELETE FROM Trips WHERE id=?";
   private final static String UPDATE_TRIP_BY_ID = "UPDATE Trips SET transport_id=?, user_id=?, path_id=? WHERE id=?";
-  private final static String INSERT_TRIP = "INSERT INTO Trips (transport_id, user_id, path_id) VALUES (?,?)";
+  private final static String INSERT_TRIP = "INSERT INTO Trips (transport_id, user_id) VALUES (?,?)";
+  private final static String INSERT_PATH = "INSERT INTO paths (trip_id, coordinate_id) VALUES (?,?)";
 
   @Override
   public Trip getEntityById(long id) {
@@ -45,11 +47,16 @@ public class TripDAO extends AbstractDAO implements ITripDAO {
   public void saveEntity(Trip entity) {
     PreparedStatement pr = null;
     try (Connection con = getConnection()) {
-      pr = con.prepareStatement(INSERT_TRIP);
+      pr = con.prepareStatement(INSERT_TRIP, PreparedStatement.RETURN_GENERATED_KEYS);
       pr.setInt(1, entity.getTransport().getId());
       pr.setInt(2, entity.getUser().getId());
-      pr.setInt(2, entity.getPath().getId());
       pr.executeUpdate();
+      int affectedRows = pr.executeUpdate();
+      if(affectedRows == 0) throw new SQLException("Saving delivery failed");
+      ResultSet keys = pr.getGeneratedKeys();
+      if (keys.next()) {
+        entity.setId(keys.getInt(1));
+      }
     } catch (SQLException e) {
       throw new DAOException("There was a problem while doing the statement" + e);
     } finally {
@@ -60,6 +67,24 @@ public class TripDAO extends AbstractDAO implements ITripDAO {
         throw new DAOException("Exception while closing the statement" + e);
       }
     }
+
+    try (Connection con = getConnection()) {
+      pr = con.prepareStatement(INSERT_PATH);
+      for (Coordinate cord : entity.getPath().getPath()) {
+          pr.setInt(1, entity.getId());
+          pr.setInt(2, cord.getId());
+          pr.executeUpdate();
+      }
+  } catch (SQLException e) {
+      throw new DAOException("There was a problem while doing the statement" + e);
+  } finally {
+      try {
+          if (pr != null)
+          pr.close();
+      } catch (SQLException e) {
+          throw new DAOException("Exception while closing the statement" + e);
+      }
+  }
   }
 
   @Override

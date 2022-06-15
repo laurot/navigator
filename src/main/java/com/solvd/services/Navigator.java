@@ -4,18 +4,17 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.ThreadLocalRandom;
-
 import com.solvd.bin.Coordinate;
 import com.solvd.bin.Path;
 import com.solvd.bin.Trip;
+import com.solvd.services.jdbcImpl.CoordinateServiceImpl;
 
 public class Navigator {
     
     public void Navigate(Trip trip, Coordinate destination){
 
         Path path = new Path();
-        Set<Coordinate> allDots = getAllDots();                         //Has to be changed
+        Set<Coordinate> allDots = new CoordinateServiceImpl().getAllDots();                         //Has to be changed
         Coordinate nextDot = trip.getUser().getPosition();
         allDots.add(nextDot);
         allDots.add(destination);
@@ -49,14 +48,14 @@ public class Navigator {
         path.setPath(pathList);
         trip.setPath(path);
     }
-
+    /* 
     private Set<Coordinate> getAllDots(){
         Set<Coordinate> allDots = new HashSet<Coordinate>();
         for (int i = 0; i < 15; i++) {
             allDots.add(new Coordinate(ThreadLocalRandom.current().nextInt(30)-15,ThreadLocalRandom.current().nextInt(30)-15));
         }
         return allDots;
-    }
+    } */
 
     private double getDistance(Coordinate a, Coordinate b){
         double x = a.getX() - b.getX();

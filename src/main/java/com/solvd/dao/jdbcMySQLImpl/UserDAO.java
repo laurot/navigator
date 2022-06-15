@@ -14,7 +14,7 @@ public class UserDAO extends AbstractDAO implements IUserDAO {
   private final static String SELECT_BY_USER_ID = "SELECT * FROM users WHERE id = ?";
   private final static String DELETE_USER_BY_ID = "DELETE FROM users WHERE id = ?";
   private final static String UPDATE_USER_BY_ID = "UPDATE users SET position_id = ?, account_id = ? WHERE id=?";
-  private final static String INSERT_USER = "INSERT INTO users (account_id) VALUES (?)";
+  private final static String INSERT_USER = "INSERT INTO users (account_id, position_id) VALUES (?,?)";
 
   @Override
   public User getEntityById(long id) {
@@ -48,9 +48,11 @@ public class UserDAO extends AbstractDAO implements IUserDAO {
     PreparedStatement pr = null;
     IAccountDAO accountDAO = new AccountDAO();
     try (Connection con = getConnection()) {
+      new CoordinateDAO().checkCoordinate(entity.getPosition());
       pr = con.prepareStatement(INSERT_USER);
       accountDAO.saveEntity(entity.getAccount());
       pr.setInt(1, entity.getAccount().getId());
+      pr.setInt(2, entity.getPosition().getId());
       pr.executeUpdate();
     } catch (SQLException e) {
       throw new DAOException("There was a problem while doing the statement" + e);

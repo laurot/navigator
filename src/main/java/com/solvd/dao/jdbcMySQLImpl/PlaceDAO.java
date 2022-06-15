@@ -12,9 +12,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+import java.util.HashSet;
 import java.util.Set;
-import java.util.TreeSet;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class PlaceDAO extends AbstractDAO implements IPlaceDAO {
   private final static String SELECT_BY_PLACE_ID = "SELECT * FROM Places WHERE id=?";
@@ -24,6 +26,8 @@ public class PlaceDAO extends AbstractDAO implements IPlaceDAO {
   private final static String UPDATE_PLACE_BY_ID = "UPDATE Places SET name=?, location_id=? WHERE id=?";
   private final static String INSERT_PLACE = "INSERT INTO Places (name,location_id,account_id) VALUES (?,?,?)";
 
+  private static final Logger LOGGER = LogManager.getLogger();
+  
   @Override
   public Place getEntityById(long id) {
     PreparedStatement pr = null;
@@ -119,33 +123,28 @@ public class PlaceDAO extends AbstractDAO implements IPlaceDAO {
 
   @Override
   public Set<Place> getAllPlaces() {
-    Set<Place> places = new TreeSet<Place>();
+    Set<Place> places = new HashSet<Place>();
     PreparedStatement pr = null;
-    ResultSet rs = null;
     try (Connection con = getConnection()) {
       pr = con.prepareStatement(SELECT_ALL_PLACES);
-      rs = pr.executeQuery();
-      Place placeAux = new Place();
+      ResultSet rs = pr.executeQuery();
 
       while (rs.next()) {
-
+        Place placeAux = new Place();
         placeAux.setId(rs.getInt("id"));
         placeAux.setName(rs.getString("name"));
-        int cordIdAux = (Integer.parseInt(rs.getString("coordinate_id")));
         ICoordinateDAO cordDAO = new CoordinateDAO();
-        Coordinate cordAux = cordDAO.getEntityById(cordIdAux);
+        Coordinate cordAux = cordDAO.getEntityById(rs.getInt("location_id"));
         placeAux.setLocation(cordAux);
-        int accountIdAux = (Integer.parseInt(rs.getString("account_id")));
         IAccountDAO accDAO = new AccountDAO();
-        Account accountAux = accDAO.getEntityById(accountIdAux);
+        Account accountAux = accDAO.getEntityById(rs.getInt("account_id"));
         placeAux.setAccount(accountAux);
-
         places.add(placeAux);
       }
 
       rs.close();
-    } catch (Exception e) {
-      System.out.println(e);
+    } catch (SQLException e) {
+      LOGGER.warn(e.getMessage());
     }
 
     return places;
@@ -163,9 +162,8 @@ public class PlaceDAO extends AbstractDAO implements IPlaceDAO {
       rs.next();
       place.setId(Integer.parseInt(rs.getString("id")));
       place.setName(rs.getString("name"));
-      int cordId = (Integer.parseInt(rs.getString("coordinate_id")));
       ICoordinateDAO cordDAO = new CoordinateDAO();
-      Coordinate cord = cordDAO.getEntityById(cordId);
+      Coordinate cord = cordDAO.getEntityById(rs.getInt("location_id"));
       place.setLocation(cord);
       int accountId = (Integer.parseInt(rs.getString("account_id")));
       IAccountDAO accDAO = new AccountDAO();

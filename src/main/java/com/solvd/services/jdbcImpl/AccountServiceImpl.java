@@ -34,7 +34,10 @@ public class AccountServiceImpl implements AccountServices {
         LOGGER.info("0. Cancel");
         switch (Input.getInput().nextInt()) {
             case 1:
-                new UserDAO().saveEntity(new User(account));
+                User user = new User();
+                user.setAccount(account);
+                user.setPosition(new Coordinate(0,0));
+                new UserDAO().saveEntity(user);
                 break;
             case 2:
                 Place place = new Place();
@@ -99,8 +102,7 @@ public class AccountServiceImpl implements AccountServices {
                     account.setUserName(Input.getInput().nextLine());
                     LOGGER.info("This is an user account, insert your password:");
                     account.setPassword(Input.getInput().nextLine());
-                    accountDAO.authenticateUser(account);
-                    new UserServiceImpl().userMenu(new User(account));
+                    new UserServiceImpl().userMenu(accountDAO.authenticateUser(account));
                 case 2:
                     LOGGER.info("This is a place account, insert your Username:");
                     account.setUserName(Input.getInput().nextLine());
