@@ -30,6 +30,8 @@ public class UserServiceImpl implements UserServices {
             coordinate.setY(Input.getInput().nextInt());
             user.setPosition(coordinate);
             new CoordinateDAO().saveEntity(coordinate);
+            UserDAO userDAO = new UserDAO();
+            userDAO.updateEntity(user);
             LOGGER.info("Your new user position has been changed correctly");
         }catch(InputMismatchException ime){
             LOGGER.warn("Not a valid input");
