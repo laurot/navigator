@@ -103,12 +103,14 @@ public class AccountServiceImpl implements AccountServices {
                     LOGGER.info("This is an user account, insert your password:");
                     account.setPassword(Input.getInput().nextLine());
                     new UserServiceImpl().userMenu(accountDAO.authenticateUser(account));
+                    break;
                 case 2:
                     LOGGER.info("This is a place account, insert your Username:");
                     account.setUserName(Input.getInput().nextLine());
                     LOGGER.info("This is an user account, insert your password:");
                     account.setPassword(Input.getInput().nextLine());
                     new PlaceServiceImpl().placeMenu(accountDAO.authenticatePlace(account));
+                    break;
                 case 0:
                     LOGGER.info("Returning...");
                     return;

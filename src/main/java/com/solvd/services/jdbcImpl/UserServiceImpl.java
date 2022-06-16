@@ -9,6 +9,7 @@ import com.solvd.bin.Place;
 import com.solvd.bin.Trip;
 import com.solvd.bin.user.User;
 import com.solvd.dao.IUserDAO;
+import com.solvd.dao.jdbcMySQLImpl.CoordinateDAO;
 import com.solvd.dao.jdbcMySQLImpl.UserDAO;
 import com.solvd.services.AccountServices;
 import com.solvd.services.UserServices;
@@ -28,6 +29,7 @@ public class UserServiceImpl implements UserServices {
             LOGGER.info("Insert new Y coordinate:");
             coordinate.setY(Input.getInput().nextInt());
             user.setPosition(coordinate);
+            new CoordinateDAO().saveEntity(coordinate);
             LOGGER.info("Your new user position has been changed correctly");
         }catch(InputMismatchException ime){
             LOGGER.warn("Not a valid input");
@@ -98,9 +100,9 @@ public class UserServiceImpl implements UserServices {
             LOGGER.info("( " + coordinate.getX() + ", " + coordinate.getY() + " )");
         }
         LOGGER.info("Total distance is: " +  new DecimalFormat("#.##").format(trip.getPath().getDistance()) + " kms");
-        LOGGER.info("With " + trip.getTransport().getType() + "it will take:");
-        LOGGER.info("Approximately " + trip.getPath().getDistance()/trip.getTransport().getSpeed() + " hours");
-        LOGGER.info("And cost approximately $" + trip.getPath().getDistance()*consumptionPrice);
+        LOGGER.info("With " + trip.getTransport().getType() + ", it will take:");
+        LOGGER.info("Approximately " + new DecimalFormat("#.##").format(trip.getPath().getDistance()/trip.getTransport().getSpeed()) + " hours");
+        LOGGER.info("And cost approximately $" + new DecimalFormat("#.##").format(trip.getPath().getDistance()*consumptionPrice));
         LOGGER.info("--ENTER to continue--");
         new TripServiceImpl().saveTrip(trip);
         Input.getInput().nextLine();
