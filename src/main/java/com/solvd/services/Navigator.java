@@ -44,18 +44,11 @@ public class Navigator {
             }
             allDots.removeAll(removables);          //Removes them 
         }
+        path.setDistance(path.getDistance() + getDistance(path.getPath().get(path.getPath().size()-1), destination));
         pathList.add(destination);
         path.setPath(pathList);
         trip.setPath(path);
     }
-    /* 
-    private Set<Coordinate> getAllDots(){
-        Set<Coordinate> allDots = new HashSet<Coordinate>();
-        for (int i = 0; i < 15; i++) {
-            allDots.add(new Coordinate(ThreadLocalRandom.current().nextInt(30)-15,ThreadLocalRandom.current().nextInt(30)-15));
-        }
-        return allDots;
-    } */
 
     private double getDistance(Coordinate a, Coordinate b){
         double x = a.getX() - b.getX();
