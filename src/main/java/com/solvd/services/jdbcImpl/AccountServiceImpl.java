@@ -22,12 +22,12 @@ public class AccountServiceImpl implements AccountServices {
 
     @Override
     public void createAccount() {
-        Account account = new Account();
     try {
         LOGGER.info("Please insert your Username: ");
-        account.setUserName(Input.getInput().nextLine());
+        String usernameAux = Input.getInput().nextLine();
         LOGGER.info("Please insert your password: ");
-        account.setPassword(Input.getInput().nextLine());
+        String passwordAux =Input.getInput().nextLine();
+        Account account = new Account(usernameAux,passwordAux);
         LOGGER.info("What kind of account do you want to make?: ");
         LOGGER.info("1. User account ");
         LOGGER.info("2. Place account ");
