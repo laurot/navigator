@@ -1,6 +1,6 @@
 # NAVIGATOR
 
-# 2 week proyect - solvd course
+# 2 weeks proyect - solvd course
 
 # Students
 - Lautaro Balletti
