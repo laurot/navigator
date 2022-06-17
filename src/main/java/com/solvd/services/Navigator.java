@@ -44,7 +44,7 @@ public class Navigator {
             }
             allDots.removeAll(removables);          //Removes them 
         }
-        path.setDistance(path.getDistance() + getDistance(path.getPath().get(path.getPath().size()-1), destination));
+        path.setDistance(path.getDistance() + getDistance(pathList.get(pathList.size()-1), destination));
         pathList.add(destination);
         path.setPath(pathList);
         trip.setPath(path);
