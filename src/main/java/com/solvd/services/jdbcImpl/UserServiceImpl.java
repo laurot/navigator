@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserServices {
             LOGGER.info("Insert new Y coordinate:");
             coordinate.setY(Input.getInput().nextInt());
             user.setPosition(coordinate);
-            new CoordinateDAO().saveEntity(coordinate);
+            new CoordinateDAO().checkCoordinate(coordinate);
             UserDAO userDAO = new UserDAO();
             userDAO.updateEntity(user);
             LOGGER.info("Your new user position has been changed correctly");
