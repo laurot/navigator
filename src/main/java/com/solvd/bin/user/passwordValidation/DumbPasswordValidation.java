@@ -8,10 +8,10 @@ import java.nio.file.Paths;
 import java.util.List;
 
 public class DumbPasswordValidation implements IValidate {
-  private List<String> passwordList = readFile();
+  private List<String> passwordList = readFile("passwordlist.txt");
 
-  public List<String> readFile() {
-    Path pathFile = Paths.get("src/main/resources/passwordlist.txt");
+  public List<String> readFile(String file) {
+    Path pathFile = Paths.get("src/main/resources").toAbsolutePath().resolve(file);
 
     try {
       return Files.readAllLines(pathFile, StandardCharsets.UTF_8);

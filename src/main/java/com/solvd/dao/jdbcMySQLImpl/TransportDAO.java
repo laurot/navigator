@@ -136,7 +136,7 @@ public class TransportDAO extends AbstractDAO implements ITransportDAO {
       }
       rs.close();
     } catch (Exception e) {
-      System.out.println(e);
+      throw new DAOException("There was a problem while doing the statement" + e);
     }
     return transports;
   }
