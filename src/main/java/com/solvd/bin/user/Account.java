@@ -1,5 +1,7 @@
 package com.solvd.bin.user;
 
+import com.solvd.bin.user.passwordValidation.DumbPasswordValidation;
+import com.solvd.bin.user.passwordValidation.LengthValidator;
 import com.solvd.bin.user.passwordValidation.PasswordValidator;
 
 import java.util.Objects;
@@ -8,12 +10,12 @@ public class Account {
   private int id;
   private String userName;
   private String password;
-  private PasswordValidator validator;
+  private PasswordValidator validator = new PasswordValidator();
 
   public Account(String userName, String password) {
     this.userName = userName;
     this.password = password;
-    validator.validateAtributes(userName, password);
+    //validator.validateAtributes(userName, password);
   }
 
   public Account() {

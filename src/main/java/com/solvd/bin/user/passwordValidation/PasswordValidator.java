@@ -6,6 +6,11 @@ import java.util.List;
 public class PasswordValidator {
   private List<IValidate> validators = new ArrayList<>();
 
+  public PasswordValidator() {
+    validators.add(new LengthValidator());
+    validators.add(new DumbPasswordValidation());
+  }
+
   public void validateAtributes(String password, String userName) {
     getValidations().forEach(validator -> validator.validate(password));
   }
@@ -17,4 +22,5 @@ public class PasswordValidator {
   private List<IValidate> getValidations() {
     return validators;
   }
+
 }
