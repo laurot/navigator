@@ -4,12 +4,15 @@ import com.solvd.bin.Fuel;
 import com.solvd.bin.Transport;
 import com.solvd.dao.*;
 import com.solvd.exceptions.DAOException;
+import com.solvd.util.jackson.FuelJackson;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TransportDAO extends AbstractDAO implements ITransportDAO {
   private final static String SELECT_BY_TRANSPORT_ID = "SELECT * FROM Transports WHERE id=?";
@@ -118,7 +121,8 @@ public class TransportDAO extends AbstractDAO implements ITransportDAO {
     try (Connection con = getConnection()) {
       pr = con.prepareStatement(SELECT_ALL_TRANSPORTS);
       ResultSet rs = pr.executeQuery();
-      
+      List<Fuel> fuels = FuelJackson.getInstance().serializedFuel();
+
       while (rs.next()) {
         Transport transportAux = new Transport();
         transportAux.setId(rs.getInt("id"));
@@ -126,10 +130,8 @@ public class TransportDAO extends AbstractDAO implements ITransportDAO {
         transportAux.setSpeed(Integer.parseInt(rs.getString("speed")));
         transportAux.setConsumption(Double.parseDouble(rs.getString("consumption")));
         int fuelIdAux = (Integer.parseInt(rs.getString("fuel_id")));
-        IFuelDAO fuelDAO = new FuelDAO();
-        Fuel fuelAux = fuelDAO.getEntityById(fuelIdAux);
-        transportAux.setFuel(fuelAux);
-
+        Fuel fuel = fuels.stream().filter(f -> f.getId() == fuelIdAux).collect(Collectors.toList()).remove(0);
+        transportAux.setFuel(fuel);
         transports.add(transportAux);
       }
       rs.close();

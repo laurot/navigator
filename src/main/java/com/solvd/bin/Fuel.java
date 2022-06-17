@@ -1,10 +1,15 @@
 package com.solvd.bin;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Objects;
 
 public class Fuel {
+  @JsonProperty("id")
   private int id;
+  @JsonProperty("type")
   private String type;
+  @JsonProperty("price")
   private double price;
 
   public Fuel(String type, int price) {

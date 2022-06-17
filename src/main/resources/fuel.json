@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "type": "gasoline",
+    "price": 10
+  },
+  {
+    "id": 2,
+    "type": "diesel",
+    "price": 5
+  },
+  {
+    "id": 3,
+    "type": "ethanol",
+    "price": 12
+  }
+]
