@@ -3,6 +3,7 @@ package com.solvd.services.jdbcImpl;
 import com.solvd.bin.Coordinate;
 import com.solvd.bin.Place;
 import com.solvd.dao.IPlaceDAO;
+import com.solvd.dao.jdbcMySQLImpl.CoordinateDAO;
 import com.solvd.dao.jdbcMySQLImpl.PlaceDAO;
 import com.solvd.services.AccountServices;
 import com.solvd.services.PlaceServices;
@@ -27,10 +28,12 @@ public class PlaceServiceImpl implements PlaceServices {
             LOGGER.info("Insert new Y coordinate:");
             coordinate.setY(Input.getInput().nextInt());
             place.setLocation(coordinate);
+            new CoordinateDAO().checkCoordinate(coordinate);
+            placeDAO.updateEntity(place);
             LOGGER.info("Your new place location has been changed correctly");
         }catch(InputMismatchException ime){
             LOGGER.warn("Not a valid input");
-Input.getInput().next();
+            Input.getInput().next();
             changeLocation(place);
         }
     }
@@ -48,7 +51,7 @@ Input.getInput().next();
         AccountServices accountServiceImpl = new AccountServiceImpl();
         int option;
         try{
-            LOGGER.info("Place menu: (" + place.getName() + ")");
+            LOGGER.info("Place menu: (" + place.getName() + ")" + " in position: (" + place.getLocation().getX() + ", " + place.getLocation().getY() + ")");
             LOGGER.info("1.Change name");
             LOGGER.info("2. Change Location");
             LOGGER.info("3. Account Settings");
@@ -80,7 +83,7 @@ Input.getInput().next();
             if(option != 0)placeMenu(place);
         }catch(InputMismatchException ime){
             LOGGER.warn("Not a valid input");
-Input.getInput().next();
+            Input.getInput().next();
             placeMenu(place);
         }
     }
