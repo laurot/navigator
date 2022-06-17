@@ -1,21 +1,16 @@
 package com.solvd.bin.user;
 
-import com.solvd.bin.user.passwordValidation.DumbPasswordValidation;
-import com.solvd.bin.user.passwordValidation.LengthValidator;
-import com.solvd.bin.user.passwordValidation.PasswordValidator;
-
 import java.util.Objects;
 
 public class Account {
   private int id;
   private String userName;
   private String password;
-  private PasswordValidator validator = new PasswordValidator();
 
   public Account(String userName, String password) {
     this.userName = userName;
     this.password = password;
-    //validator.validateAtributes(userName, password);
+    //new PasswoerdValidator.validateAtributes(userName, password);
   }
 
   public Account() {
@@ -38,13 +33,6 @@ public class Account {
     this.password = password;
   }
 
-  public PasswordValidator getValidator() {
-    return validator;
-  }
-
-  public void setValidator(PasswordValidator validator) {
-    this.validator = validator;
-  }
 
   public int getId() {
     return id;
@@ -59,12 +47,12 @@ public class Account {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Account account = (Account) o;
-    return id == account.id && Objects.equals(userName, account.userName) && Objects.equals(password, account.password) && Objects.equals(validator, account.validator);
+    return id == account.id && Objects.equals(userName, account.userName) && Objects.equals(password, account.password);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, userName, password, validator);
+    return Objects.hash(id, userName, password);
   }
 
   @Override
@@ -73,7 +61,6 @@ public class Account {
         "id=" + id +
         ", userName='" + userName + '\'' +
         ", password='" + password + '\'' +
-        ", validator=" + validator +
         '}';
   }
 }
