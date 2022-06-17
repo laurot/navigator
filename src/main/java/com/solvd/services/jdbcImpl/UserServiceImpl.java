@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserServices {
         int option;
         try{
             if(user.getPosition() == null)LOGGER.info("You have to set your position before navigating");
-            LOGGER.info("User menu: (" + user.getAccount().getUserName() + ")");
+            LOGGER.info("User menu: (" + user.getAccount().getUserName() + ")" + " in position: (" + user.getPosition().getX() + ", " + user.getPosition().getY() + ")");
             LOGGER.info("1.Navigate");
             LOGGER.info("2.Set position");
             LOGGER.info("3.Account Settings");
