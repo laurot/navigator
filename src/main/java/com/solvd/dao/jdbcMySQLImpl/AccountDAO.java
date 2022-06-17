@@ -18,7 +18,7 @@ public class AccountDAO extends AbstractDAO implements IAccountDAO {
   private final static String AUTHENTICATE_PLACE = "SELECT a.id as account_id, p.id as place_id, p.location_id as location_id, p.name as name FROM places p LEFT JOIN accounts a ON p.account_id = a.id WHERE a.username = ? AND a.pass = ? ";
   
   @Override
-  public Account getEntityById(long id) throws DAOException {
+  public Account getEntityById(long id) {
     PreparedStatement pr = null;
     ResultSet rs = null;
     try (Connection con = getConnection()) {

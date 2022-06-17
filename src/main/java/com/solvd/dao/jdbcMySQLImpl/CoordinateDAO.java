@@ -23,7 +23,7 @@ public class CoordinateDAO extends AbstractDAO implements ICoordinateDAO {
   private final static String INSERT_COORDINATE = "INSERT INTO Coordinates (x,y) VALUES (?,?)";
 
   @Override
-  public Coordinate getEntityById(long id) throws DAOException {
+  public Coordinate getEntityById(long id) {
     PreparedStatement pr = null;
     ResultSet rs = null;
     try (Connection con = getConnection()) {
