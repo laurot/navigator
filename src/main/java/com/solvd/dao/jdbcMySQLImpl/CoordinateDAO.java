@@ -3,9 +3,6 @@ package com.solvd.dao.jdbcMySQLImpl;
 import com.solvd.bin.Coordinate;
 import com.solvd.dao.ICoordinateDAO;
 import com.solvd.exceptions.DAOException;
-import com.solvd.util.jackson.FuelJackson;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
